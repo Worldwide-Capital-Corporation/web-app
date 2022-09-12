@@ -2,7 +2,11 @@
  * Credentials model.
  */
 export interface Credentials {
-  accessToken?: string;
+  accessToken: string;
+  tokenType: string;
+  refreshToken: string;
+  expiresIn: number;
+  refreshExpiresIn: number;
   authenticated: boolean;
   base64EncodedAuthenticationKey?: string;
   isTwoFactorAuthenticationRequired?: boolean;
