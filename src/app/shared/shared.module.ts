@@ -26,6 +26,7 @@ import { ServerSelectorComponent } from './server-selector/server-selector.compo
 import { IconsModule } from './icons.module';
 import { MaterialModule } from './material.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { IdleSessionTimeoutDialogComponent } from './idle-session-timeout-dialog/idle-session-timeout-dialog.component';
 
 /**
  * Shared Module
@@ -57,7 +58,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ErrorDialogComponent,
     NotificationsTrayComponent,
     SearchToolComponent,
-    ServerSelectorComponent
+    ServerSelectorComponent,
+    IdleSessionTimeoutDialogComponent
   ],
   exports: [
     FileUploadComponent,

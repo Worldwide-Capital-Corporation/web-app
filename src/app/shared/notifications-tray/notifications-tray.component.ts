@@ -57,7 +57,7 @@ export class NotificationsTrayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    setTimeout(() => { this.fetchUnreadNotifications(); }, 60000);
+    this.timer = setTimeout(() => { this.fetchUnreadNotifications(); }, 60000);
   }
 
   ngOnDestroy() {

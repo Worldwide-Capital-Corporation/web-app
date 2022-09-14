@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Session Timeout</h1>
+<div mat-dialog-content>
+  <p class="idle-timeout-warning">Your session will expire in: {{ seconds }} sec</p>
+  <p>Click "Continue" to keep working or click "Sign Out" to end your session now.</p>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close (click)="continue()">Continue</button>
+  <button mat-raised-button color="primary" (click)="logout()">Sign Out</button>
+</mat-dialog-actions>

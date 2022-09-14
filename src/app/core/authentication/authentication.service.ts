@@ -1,5 +1,5 @@
 /** Angular Imports */
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 /** rxjs Imports */
@@ -45,6 +45,10 @@ export class AuthenticationService {
   private oAuthTokenDetailsStorageKey = 'mifosXOAuthTokenDetails';
   /** Key to store two factor authentication token in storage. */
   private twoFactorAuthenticationTokenStorageKey = 'mifosXTwoFactorAuthenticationToken';
+  /** Emit loggedIn and loggedOut events. This is for sending events that a user is beginning the logout process */
+  public authenticationEvent: EventEmitter<Boolean>;
+  /** Timer to refresh token */
+  private timer: any;
 
   /**
    * Initializes the type of storage and authorization headers depending on whether
@@ -76,6 +80,7 @@ export class AuthenticationService {
         authenticationInterceptor.setTwoFactorAccessToken(twoFactorAccessToken.token);
       }
     }
+    this.authenticationEvent = new EventEmitter();
   }
 
   /**
@@ -139,7 +144,7 @@ export class AuthenticationService {
    * @param {number} expiresInTime OAuth2 token expiry time in seconds.
    */
   private refreshTokenOnExpiry(expiresInTime: number) {
-    setTimeout(() => this.refreshOAuthAccessToken(), expiresInTime * 1000);
+    this.timer = setTimeout(() => this.refreshOAuthAccessToken(), expiresInTime * 1000);
   }
 
   /**
@@ -185,6 +190,7 @@ export class AuthenticationService {
       } else {
         this.setCredentials(credentials);
         this.alertService.alert({ type: 'Authentication Success', message: `${credentials.username} successfully logged in!` });
+        this.authenticationEvent.emit(true);
         delete this.credentials;
       }
     }
@@ -202,6 +208,8 @@ export class AuthenticationService {
     }
     this.authenticationInterceptor.removeAuthorization();
     this.setCredentials();
+    this.authenticationEvent.emit(false);
+    clearTimeout(this.timer);
     return of(true);
   }
 

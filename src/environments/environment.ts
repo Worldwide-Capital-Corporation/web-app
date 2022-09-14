@@ -26,7 +26,9 @@ export const environment = {
     serverUrl: 'https://localhost:9000/realms/farmers-bank/protocol/openid-connect'
   },
   defaultLanguage: window['env']['defaultLanguage'] || 'en-US',
-  supportedLanguages: window['env']['supportedLanguages'] || 'en-US,fr-FR'
+  supportedLanguages: window['env']['supportedLanguages'] || 'en-US,fr-FR',
+  idleTime: window['env']['idleTime'] || 120,
+  idleTimeout: window['env']['idleTimeout'] || 10
 };
 
 // Server URL

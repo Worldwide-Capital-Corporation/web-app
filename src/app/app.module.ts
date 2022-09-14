@@ -41,6 +41,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DatePipe, LocationStrategy } from '@angular/common';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 /**
  * App Module
@@ -83,6 +84,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     CollectionsModule,
     TasksModule,
     AppRoutingModule,
+    NgIdleKeepaliveModule.forRoot()
   ],
   declarations: [WebAppComponent, NotFoundComponent],
   providers: [DatePipe],

@@ -25,6 +25,12 @@ import { SettingsService } from './settings/settings.service';
 import { Alert } from './core/alert/alert.model';
 import { KeyboardShortcutsConfiguration } from './keyboards-shortcut-config';
 import { Dates } from './core/utils/dates';
+import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
+import {MatDialog} from '@angular/material/dialog';
+import {
+  IdleSessionTimeoutDialogComponent
+} from './shared/idle-session-timeout-dialog/idle-session-timeout-dialog.component';
+import {NotificationsService} from './notifications/notifications.service';
 
 /** Initialize Logger */
 const log = new Logger('MifosX');
@@ -63,7 +69,9 @@ export class WebAppComponent implements OnInit {
               private alertService: AlertService,
               private settingsService: SettingsService,
               private authenticationService: AuthenticationService,
-              private dateUtils: Dates) { }
+              private dateUtils: Dates,
+              private idle: Idle,
+              private dialog: MatDialog) {}
 
   /**
    * Initial Setup:
@@ -77,6 +85,8 @@ export class WebAppComponent implements OnInit {
    * 4) Theme
    *
    * 5) Alerts
+   *
+   * 6) Idle timeout
    */
   ngOnInit() {
     // Setup logger
@@ -150,15 +160,53 @@ export class WebAppComponent implements OnInit {
     this.settingsService.setBusinessDate(this.dateUtils.formatDate(new Date(), SettingsService.businessDateFormat));
     // Set the server list from the env var FINERACT_API_URLS
     this.settingsService.setServers(environment.baseApiUrls.split(','));
+
+    // do something when the user becomes idle
+    this.idle.onIdleStart.subscribe(() => {
+      this.showSessionCountDownDialog();
+    });
+
+    // do something when the user has timed out
+    this.idle.onTimeout.subscribe(() => {
+      this.logout();
+    });
+
+    this.authenticationService.authenticationEvent.subscribe((loggedIn: Boolean) => {
+      // set idle parameters
+      if (loggedIn) {
+        this.idle.setIdle(environment.idleTime); // how long can they be inactive before considered idle, in seconds
+        this.idle.setTimeout(environment.idleTimeout); // how long can they be idle before considered timed out, in seconds
+        this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES); // provide sources that will "interrupt" aka provide events indicating the user is active
+        this.reset();
+      } else {
+        this.dialog.closeAll();
+        this.idle.stop();
+      }
+    });
   }
 
   logout() {
     this.authenticationService.logout()
-      .subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
+      .subscribe(() => {
+        this.router.navigate(['/login'], { replaceUrl: true }).then( (loggedOut) => {
+        });
+      });
   }
 
   help() {
     window.open('https://mifosforge.jira.com/wiki/spaces/docs/pages/52035622/User+Manual', '_blank');
+  }
+
+  reset() {
+    // we'll call this method when we want to start/reset the idle process
+    // reset any component state and be sure to call idle.watch()
+    this.idle.watch();
+  }
+
+  showSessionCountDownDialog() {
+    this.dialog.open(IdleSessionTimeoutDialogComponent, {
+      data: { timer: environment.idleTimeout },  disableClose: true
+    });
   }
 
   // Monitor all keyboard events and excute keyboard shortcuts
@@ -199,5 +247,4 @@ export class WebAppComponent implements OnInit {
       }
     }
   }
-
 }
