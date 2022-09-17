@@ -19,6 +19,7 @@ import { environment } from '../../../environments/environment';
 import { LoginContext } from './login-context.model';
 import { Credentials } from './credentials.model';
 import { OAuth2Token } from './o-auth2-token.model';
+import {Alert} from '../alert/alert.model';
 
 /**
  * Authentication workflow.
@@ -49,6 +50,8 @@ export class AuthenticationService {
   public authenticationEvent: EventEmitter<Boolean>;
   /** Timer to refresh token */
   private timer: any;
+  /** Flag for idle to show warning on login */
+  public systemMessage?: Alert;
 
   /**
    * Initializes the type of storage and authorization headers depending on whether

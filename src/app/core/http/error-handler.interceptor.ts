@@ -12,6 +12,7 @@ import { environment } from 'environments/environment';
 /** Custom Services */
 import { Logger } from '../logger/logger.service';
 import { AlertService } from '../alert/alert.service';
+import {SystemAlert} from '../alert/alert.model';
 
 /** Initialize Logger */
 const log = new Logger('ErrorHandlerInterceptor');
@@ -50,8 +51,11 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
       log.error(`Request Error: ${errorMessage}`);
     }
 
-    if (status === 401 || (environment.oauth.enabled && status === 400)) {
-      this.alertService.alert({ type: 'Authentication Error', message: 'Invalid User Details. Please try again!' });
+    if (status === 401 /*|| (environment.oauth.enabled && status === 400) */) {
+      this.alertService.alert(new SystemAlert(
+        'Authentication Error',
+        'Invalid Authentication Details. Please login and try again!',
+        4000));
     } else if (status === 403 && errorMessage === 'The provided one time token is invalid') {
       this.alertService.alert({ type: 'Invalid Token', message: 'Invalid Token. Please try again!' });
     } else if (status === 400) {

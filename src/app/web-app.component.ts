@@ -22,7 +22,7 @@ import { AuthenticationService } from './core/authentication/authentication.serv
 import { SettingsService } from './settings/settings.service';
 
 /** Custom Items */
-import { Alert } from './core/alert/alert.model';
+import {Alert, SystemAlert} from './core/alert/alert.model';
 import { KeyboardShortcutsConfiguration } from './keyboards-shortcut-config';
 import { Dates } from './core/utils/dates';
 import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
@@ -30,7 +30,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {
   IdleSessionTimeoutDialogComponent
 } from './shared/idle-session-timeout-dialog/idle-session-timeout-dialog.component';
-import {NotificationsService} from './notifications/notifications.service';
 
 /** Initialize Logger */
 const log = new Logger('MifosX');
@@ -116,7 +115,7 @@ export class WebAppComponent implements OnInit {
       .subscribe(event => {
         const title = event['title'];
         if (title) {
-          this.titleService.setTitle(`${this.translateService.instant(title)} | Mifos X`);
+          this.titleService.setTitle(`${this.translateService.instant(title)} | Farmers Bank`);
         }
       });
 
@@ -141,11 +140,16 @@ export class WebAppComponent implements OnInit {
 
     // Setup alerts
     this.alertService.alertEvent.subscribe((alertEvent: Alert) => {
-      this.snackBar.open(`${alertEvent.message}`, 'Close', {
-        duration: 2000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top'
-      });
+      if (alertEvent instanceof SystemAlert) {
+        this.authenticationService.systemMessage = alertEvent;
+        this.logout();
+      } else {
+        this.snackBar.open(`${alertEvent.message}`, 'Close', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+      }
     });
     this.buttonConfig = new KeyboardShortcutsConfiguration();
 
@@ -181,6 +185,10 @@ export class WebAppComponent implements OnInit {
       } else {
         this.dialog.closeAll();
         this.idle.stop();
+        if (this.authenticationService.systemMessage) {
+          this.showSystemMessage();
+          this.authenticationService.systemMessage = null;
+        }
       }
     });
   }
@@ -206,6 +214,15 @@ export class WebAppComponent implements OnInit {
   showSessionCountDownDialog() {
     this.dialog.open(IdleSessionTimeoutDialogComponent, {
       data: { timer: environment.idleTimeout },  disableClose: true
+    });
+  }
+
+  showSystemMessage() {
+      this.snackBar.open(`${this.authenticationService.systemMessage.message}`, 'Close', {
+        duration: this.authenticationService.systemMessage.duration,
+        panelClass: ['mat-toolbar', 'mat-primary'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
     });
   }
 

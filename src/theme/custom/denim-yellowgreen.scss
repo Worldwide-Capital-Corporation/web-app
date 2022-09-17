@@ -22,6 +22,17 @@ $mat-denim: (
   )
 );
 
+$mat-pantone: (
+  100: #45c023,
+  500: #3EAE1F,
+  700: #0E3519,
+  contrast: (
+    100: rgba(black, 0.87),
+    500: white,
+    700: white
+  )
+);
+
 $mat-yellow-green: (
   100: #e7ffa5,
   500: #b4d575,
@@ -41,7 +52,7 @@ $mat-yellow-green: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$mifosx-app-primary: mat.define-palette($mat-denim);
+$mifosx-app-primary: mat.define-palette($mat-pantone);
 $mifosx-app-accent:  mat.define-palette($mat-yellow-green);
 
 // The warn palette is optional (defaults to red).

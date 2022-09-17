@@ -2,6 +2,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AuthenticationService} from '../../core/authentication/authentication.service';
 import {Router} from '@angular/router';
+import {SystemAlert} from '../../core/alert/alert.model';
 
 @Component({
   selector: 'mifosx-idle-session-timeout-dialog',
@@ -34,7 +35,7 @@ export class IdleSessionTimeoutDialogComponent implements OnInit, OnDestroy {
       }, 1000);
 
     this.timer = setTimeout(() => {
-      this.logout();
+      this.autoLogout();
       }, this.data.timer * 1000);
   }
 
@@ -49,12 +50,19 @@ export class IdleSessionTimeoutDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
+  autoLogout() {
+    this.authenticationService.systemMessage = new SystemAlert(
+      'Authentication Error',
+      'You have been automatically logged out due to inactivity',
+      null);
+    this.logout();
+  }
+
   logout() {
     this.dialogRef.close();
     this.authenticationService.logout()
       .subscribe(() => {
-        this.router.navigate(['/login'], { replaceUrl: true }).then( (loggedOut) => {
-        });
+        this.router.navigate(['/login'], { replaceUrl: true });
       });
   }
 }

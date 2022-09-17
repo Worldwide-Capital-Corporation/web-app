@@ -105,5 +105,4 @@ export class NotificationsTrayComponent implements OnInit, OnDestroy {
       this.setNotifications();
     });
   }
-
 }
