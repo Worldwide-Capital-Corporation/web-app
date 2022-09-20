@@ -13,7 +13,7 @@ services:
         - PUPPETEER_DOWNLOAD_HOST_ARG=https://storage.googleapis.com
         - PUPPETEER_CHROMIUM_REVISION_ARG=1011831
     ports:
-      - '4200:80'
+      - '80:80'
     environment:
       - FINERACT_API_URLS=https://localhost:8443,https://137.184.51.196:8443
       - FINERACT_API_URL=https://137.184.51.196:8443
