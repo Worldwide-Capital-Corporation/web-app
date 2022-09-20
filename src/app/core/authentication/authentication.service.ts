@@ -178,11 +178,11 @@ export class AuthenticationService {
    * @param {Credentials} credentials Authenticated user credentials.
    */
   private onLoginSuccess(credentials: Credentials) {
-    if (environment.oauth.enabled) {
+    // if (environment.oauth.enabled) {
       this.authenticationInterceptor.setAuthorizationToken(credentials.accessToken);
-    } else {
-      this.authenticationInterceptor.setAuthorizationToken(credentials.base64EncodedAuthenticationKey);
-    }
+   // } else {
+   //   this.authenticationInterceptor.setAuthorizationToken(credentials.base64EncodedAuthenticationKey);
+   // }
     if (credentials.isTwoFactorAuthenticationRequired) {
       this.credentials = credentials;
       this.alertService.alert({ type: 'Two Factor Authentication Required', message: 'Two Factor Authentication Required' });

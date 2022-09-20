@@ -44,11 +44,11 @@ export class AuthenticationInterceptor implements HttpInterceptor {
    * @param {string} authenticationKey Authentication key.
    */
   setAuthorizationToken(authenticationKey: string) {
-    if (environment.oauth.enabled) {
-      httpOptions.headers[authorizationHeader] = `Bearer ${authenticationKey}`;
-    } else {
+    // if (environment.oauth.enabled) {
+    //   httpOptions.headers[authorizationHeader] = `Bearer ${authenticationKey}`;
+    // } else {
       httpOptions.headers[authorizationHeader] = `Basic ${authenticationKey}`;
-    }
+    // }
   }
 
   /**
