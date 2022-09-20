@@ -19,8 +19,8 @@ export const environment = {
   idleTimeout: window['env']['idleTimeout'] || 10,
   serverUrl: '',
   oauth: {
-    enabled: false,  // For connecting to Mifos X using OAuth2 Authentication change the value to true
-    serverUrl: ''
+    enabled: true,  // For connecting to Mifos X using OAuth2 Authentication change the value to true
+    serverUrl: 'https://137.184.51.196:9000/realms/farmers-bank/protocol/openid-connect'
   },
   defaultLanguage: window['env']['defaultLanguage'] || 'en-US',
   supportedLanguages: window['env']['supportedLanguages'] || 'en-US'
