@@ -178,11 +178,14 @@ export class AuthenticationService {
    * @param {Credentials} credentials Authenticated user credentials.
    */
   private onLoginSuccess(credentials: Credentials) {
-    // if (environment.oauth.enabled) {
+    console.log('>>>>>>>>> onLoginSuccess, credentials', credentials);
+    if (environment.oauth.enabled) {
+      console.log('>>>>>>>>> onLoginSuccess oauth enabled, access token', credentials.accessToken);
       this.authenticationInterceptor.setAuthorizationToken(credentials.accessToken);
-   // } else {
-   //   this.authenticationInterceptor.setAuthorizationToken(credentials.base64EncodedAuthenticationKey);
-   // }
+    } else {
+      console.log('>>>>>>>>> onLoginSuccess oauth disabled, base64 key', credentials.base64EncodedAuthenticationKey);
+      this.authenticationInterceptor.setAuthorizationToken(credentials.base64EncodedAuthenticationKey);
+    }
     if (credentials.isTwoFactorAuthenticationRequired) {
       this.credentials = credentials;
       this.alertService.alert({ type: 'Two Factor Authentication Required', message: 'Two Factor Authentication Required' });
@@ -191,6 +194,7 @@ export class AuthenticationService {
         this.credentials = credentials;
         this.alertService.alert({ type: 'Password Expired', message: 'Your password has expired, please reset your password!' });
       } else {
+        console.log('>>>>>>>>> onLoginSuccess setting credentials');
         this.setCredentials(credentials);
         this.alertService.alert({ type: 'Authentication Success', message: `${credentials.username} successfully logged in!` });
         this.authenticationEvent.emit(true);
