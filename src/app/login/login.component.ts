@@ -30,6 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   resetPassword = false;
   /** True if user requires two factor authentication. */
   twoFactorAuthenticationRequired = false;
+  /** True if user requires authenticator app for authentication. */
+  authenticatorAppSkipped = false;
   /** Subscription to alerts. */
   alert$: Subscription;
 
@@ -65,6 +67,10 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy() {
     this.alert$.unsubscribe();
+  }
+
+  skipAuthenticator() {
+    this.authenticatorAppSkipped = true;
   }
 
 }

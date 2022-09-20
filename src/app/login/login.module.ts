@@ -10,6 +10,7 @@ import { LoginComponent } from './login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { TwoFactorAuthenticationComponent } from './two-factor-authentication/two-factor-authentication.component';
+import {AuthenticatorAppComponent} from './authenticator-app/authenticator-app.component';
 
 /**
  * Login Module
@@ -25,7 +26,8 @@ import { TwoFactorAuthenticationComponent } from './two-factor-authentication/tw
     LoginComponent,
     LoginFormComponent,
     ResetPasswordComponent,
-    TwoFactorAuthenticationComponent
+    TwoFactorAuthenticationComponent,
+    AuthenticatorAppComponent
   ]
 })
 export class LoginModule { }

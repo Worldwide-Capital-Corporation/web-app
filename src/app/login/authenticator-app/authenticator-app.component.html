@@ -1,0 +1,38 @@
+<p><strong>Multi Factor Authentication</strong></p>
+
+<mat-divider></mat-divider>
+
+<div *ngIf="twoFactorData.usingAuthenticator && !twoFactorData.authenticatorEnrolled" fxLayout="column" fxLayoutAlign="center center">
+  <p>Scan this QR code using Google Authenticator app on your phone to use it later to login</p>
+  <img width="200" height="200" src="{{twoFactorData.qrCodeImage}}" />
+</div>
+
+<div *ngIf="twoFactorData.usingAuthenticator" fxLayout="column" fxLayoutAlign="center center">
+  <p>Enter the verification code displayed in the authenticator app on your mobile.</p>
+</div>
+
+<div *ngIf="twoFactorData.usingAuthenticator" fxFlexAlign="center">
+  <form fxLayout="column" *ngIf="twoFactorData.usingAuthenticator" [formGroup]="appCodeVerificationForm" class="two-factor-auth-form"
+        (ngSubmit)="validateOTP()">
+
+    <mat-form-field fxFlexAlign="center" class="two-factor-auth-input">
+    <span matPrefix>
+      <fa-icon icon="user-shield"></fa-icon>&nbsp;&nbsp;
+    </span>
+      <mat-label>Enter Code</mat-label>
+      <input type="password" matInput autocomplete="off" required formControlName="otp">
+      <mat-error *ngIf="appCodeVerificationForm.controls.otp.hasError('required')">
+        App code is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <br />
+    <button mat-raised-button fxLayout="row" color="primary" fxFlexAlign="center" class="login-button"
+            [disabled]="!appCodeVerificationForm.valid">
+      Login
+      <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>
+    </button>
+
+  </form>
+</div>
+

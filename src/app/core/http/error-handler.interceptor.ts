@@ -56,7 +56,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         'Authentication Error',
         'Invalid Authentication Details. Please login and try again!',
         4000));
-    } else if (status === 403 && errorMessage === 'The provided one time token is invalid') {
+    } else if (status === 403 && errorMessage === 'Invalid token provided') {
       this.alertService.alert({ type: 'Invalid Token', message: 'Invalid Token. Please try again!' });
     } else if (status === 400) {
       this.alertService.alert({ type: 'Bad Request', message: 'Invalid parameters were passed in the request!' });
@@ -69,7 +69,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     } else {
       this.alertService.alert({ type: 'Unknown Error', message: 'Unknown Error. Please try again later.' });
     }
-
     throw response;
   }
 

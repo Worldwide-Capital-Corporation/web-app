@@ -303,6 +303,47 @@ export class AuthenticationService {
   }
 
   /**
+   * Validates MFA app code.
+   * @param {string} code
+   * @param {boolean} enrolled returns twa factor data to check if authenticator is enrolled
+   */
+  validateMultiFactorAppCode(code: string, enrolled: boolean) {
+    this.authenticationInterceptor.setTwoFactorMFACode(code);
+    return this.http.post(`/multifactor/validate`, {'enrolled': enrolled})
+      .pipe(
+        map(response => {
+          this.authenticationInterceptor.setTwoFactorMFACode(null);
+          this.onValidateMFACodeSuccess(response);
+        })
+      );
+  }
+
+  /**
+   * Sets the MFA authorization token followed by one of the following:
+   *
+   * Sends an alert if password has expired and requires a reset.
+   *
+   * Sends an alert on successful login.
+   * @param {any} response Two factor authentication token details.
+   */
+  private onValidateMFACodeSuccess(response: any) {
+    if (this.credentials.shouldRenewPassword) {
+      this.alertService.alert({ type: 'Password Expired', message: 'Your password has expired, please reset your password!' });
+    } else {
+      if (environment.oauth.enabled) {
+        this.authenticationInterceptor.setAuthorizationToken(this.credentials.accessToken);
+      } else {
+        this.authenticationInterceptor.setAuthorizationToken(this.credentials.base64EncodedAuthenticationKey);
+      }
+      this.setCredentials(this.credentials);
+      this.alertService.alert({ type: 'Authentication Success', message: `${this.credentials.username} successfully logged in!` });
+      delete this.credentials;
+      // this.storage.setItem(this.twoFactorAuthenticationTokenStorageKey, JSON.stringify(response));
+    }
+  }
+
+
+  /**
    * Sets the two factor authorization token followed by one of the following:
    *
    * Sends an alert if password has expired and requires a reset.
