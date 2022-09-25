@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     data: { title: extract('Login') }
-  }
+  },
 ];
 
 /**

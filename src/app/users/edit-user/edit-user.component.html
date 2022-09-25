@@ -5,7 +5,7 @@
     <form [formGroup]="editUserForm" (ngSubmit)="submit()">
 
       <mat-card-content>
-        
+
         <div fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
 
           <mat-form-field fxFlex="48%">
@@ -51,7 +51,7 @@
 
           <div class="password-never-expires-wrapper" fxFlex="48%">
             <mat-checkbox labelPosition="before" formControlName="passwordNeverExpires" >
-              Override password expiry policy
+              Password Never Expires
             </mat-checkbox>
           </div>
 
@@ -87,18 +87,24 @@
               At least one role <strong>must be selected</strong>
             </mat-error>
           </mat-form-field>
-        
+
+          <div class="authenticator-enrolled-wrapper" fxFlex="48%">
+            <mat-checkbox labelPosition="before" formControlName="isAuthenticatorEnrolled" >
+              Authenticator Enrolled
+            </mat-checkbox>
+          </div>
+
         </div>
-      
+
       </mat-card-content>
 
       <mat-card-actions fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="5px">
         <button type="button" mat-raised-button [routerLink]="['../']">Cancel</button>
         <button mat-raised-button color="primary" [disabled]="!editUserForm.valid">Submit</button>
       </mat-card-actions>
-    
+
     </form>
-  
+
   </mat-card>
 
 </div>

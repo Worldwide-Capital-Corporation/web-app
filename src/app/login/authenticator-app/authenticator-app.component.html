@@ -2,17 +2,17 @@
 
 <mat-divider></mat-divider>
 
-<div *ngIf="twoFactorData.usingAuthenticator && !twoFactorData.authenticatorEnrolled" fxLayout="column" fxLayoutAlign="center center">
-  <p>Scan this QR code using Google Authenticator app on your phone to use it later to login</p>
-  <img width="200" height="200" src="{{twoFactorData.qrCodeImage}}" />
+<div *ngIf="!enrolled" fxLayout="column" fxLayoutAlign="center center">
+  <p>Scan this QR code using Authenticator app on your phone to use it later to login</p>
+  <img width="200" height="200" src="{{twoFactorData.qrCode}}" />
 </div>
 
-<div *ngIf="twoFactorData.usingAuthenticator" fxLayout="column" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center">
   <p>Enter the verification code displayed in the authenticator app on your mobile.</p>
 </div>
 
-<div *ngIf="twoFactorData.usingAuthenticator" fxFlexAlign="center">
-  <form fxLayout="column" *ngIf="twoFactorData.usingAuthenticator" [formGroup]="appCodeVerificationForm" class="two-factor-auth-form"
+<div fxFlexAlign="center">
+  <form fxLayout="column" [formGroup]="appCodeVerificationForm" class="two-factor-auth-form"
         (ngSubmit)="validateOTP()">
 
     <mat-form-field fxFlexAlign="center" class="two-factor-auth-input">

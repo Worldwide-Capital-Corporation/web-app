@@ -12,7 +12,7 @@ import { environment } from 'environments/environment';
 /** Custom Services */
 import { Logger } from '../logger/logger.service';
 import { AlertService } from '../alert/alert.service';
-import {SystemAlert} from '../alert/alert.model';
+import {AuthenticationErrorAlert, SystemAlert, SystemErrorAlert} from '../alert/alert.model';
 
 /** Initialize Logger */
 const log = new Logger('ErrorHandlerInterceptor');
@@ -40,7 +40,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
    */
   private handleError(response: HttpErrorResponse): Observable<HttpEvent<any>> {
     const status = response.status;
-    let errorMessage = (response.error.developerMessage || response.message);
+    let errorMessage = (response.error.defaultUserMessage || response.message);
     if (response.error.errors) {
       if (response.error.errors[0]) {
         errorMessage = response.error.errors[0].defaultUserMessage || response.error.errors[0].developerMessage;
@@ -51,13 +51,18 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
       log.error(`Request Error: ${errorMessage}`);
     }
 
-    if (status === 401 /*|| (environment.oauth.enabled && status === 400) */) {
-      this.alertService.alert(new SystemAlert(
+    if (status === 401 && errorMessage === 'Invalid credentials!.'/*|| (environment.oauth.enabled && status === 400) */) {
+      this.alertService.alert(new AuthenticationErrorAlert(
+        'Authentication Error',
+        errorMessage,
+        4000));
+    } else if (status === 401) {
+      this.alertService.alert(new AuthenticationErrorAlert(
         'Authentication Error',
         'Invalid Authentication Details. Please login and try again!',
         4000));
-    } else if (status === 403 && errorMessage === 'Invalid token provided') {
-      this.alertService.alert({ type: 'Invalid Token', message: 'Invalid Token. Please try again!' });
+    } else if (status === 403 && errorMessage === 'Invalid code!') {
+      this.alertService.alert( new SystemErrorAlert('Invalid Token', 'Invalid code. Please try again!'));
     } else if (status === 400) {
       this.alertService.alert({ type: 'Bad Request', message: 'Invalid parameters were passed in the request!' });
     } else if (status === 403) {

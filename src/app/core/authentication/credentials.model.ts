@@ -10,6 +10,7 @@ export interface Credentials {
   authenticated: boolean;
   base64EncodedAuthenticationKey?: string;
   isTwoFactorAuthenticationRequired?: boolean;
+  isMFAAuthenticationRequired?: boolean;
   officeId: number;
   officeName: string;
   staffId?: number;

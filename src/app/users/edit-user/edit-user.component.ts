@@ -61,8 +61,9 @@ export class EditUserComponent implements OnInit {
       'firstname': [this.userData.firstname, [Validators.required, Validators.pattern('(^[A-z]).*')]],
       'lastname': [this.userData.lastname, [Validators.required, Validators.pattern('(^[A-z]).*')]],
       'passwordNeverExpires': [this.userData.passwordNeverExpires],
+      'isAuthenticatorEnrolled': [this.userData.isAuthenticatorEnrolled],
       'officeId': [this.userData.officeId, Validators.required],
-      'staffId': [staffId],
+      'staffId': [staffId, Validators.required],
       'roles': [this.userData.selectedRoles.map((role: any) => role.id), Validators.required]
     });
   }

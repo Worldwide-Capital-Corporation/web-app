@@ -22,7 +22,7 @@ import { AuthenticationService } from './core/authentication/authentication.serv
 import { SettingsService } from './settings/settings.service';
 
 /** Custom Items */
-import {Alert, SystemAlert} from './core/alert/alert.model';
+import {Alert, AuthenticationErrorAlert, SystemAlert, SystemErrorAlert} from './core/alert/alert.model';
 import { KeyboardShortcutsConfiguration } from './keyboards-shortcut-config';
 import { Dates } from './core/utils/dates';
 import {DEFAULT_INTERRUPTSOURCES, Idle} from '@ng-idle/core';
@@ -140,11 +140,19 @@ export class WebAppComponent implements OnInit {
 
     // Setup alerts
     this.alertService.alertEvent.subscribe((alertEvent: Alert) => {
-      if (alertEvent instanceof SystemAlert) {
+      if (alertEvent instanceof AuthenticationErrorAlert) {
         this.authenticationService.systemMessage = alertEvent;
         this.logout();
+      } else if (alertEvent instanceof SystemErrorAlert) {
+        this.snackBar.open(`${alertEvent.message}`, 'Close', {
+          panelClass: ['mat-snack-bar-container'],
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
       } else {
         this.snackBar.open(`${alertEvent.message}`, 'Close', {
+          panelClass: ['mat-toolbar', 'mat-primary'],
           duration: 2000,
           horizontalPosition: 'center',
           verticalPosition: 'top'

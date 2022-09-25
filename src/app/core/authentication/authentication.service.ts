@@ -178,23 +178,22 @@ export class AuthenticationService {
    * @param {Credentials} credentials Authenticated user credentials.
    */
   private onLoginSuccess(credentials: Credentials) {
-    console.log('>>>>>>>>> onLoginSuccess, credentials', credentials);
     if (environment.oauth.enabled) {
-      console.log('>>>>>>>>> onLoginSuccess oauth enabled, access token', credentials.accessToken);
       this.authenticationInterceptor.setAuthorizationToken(credentials.accessToken);
     } else {
-      console.log('>>>>>>>>> onLoginSuccess oauth disabled, base64 key', credentials.base64EncodedAuthenticationKey);
       this.authenticationInterceptor.setAuthorizationToken(credentials.base64EncodedAuthenticationKey);
     }
     if (credentials.isTwoFactorAuthenticationRequired) {
       this.credentials = credentials;
       this.alertService.alert({ type: 'Two Factor Authentication Required', message: 'Two Factor Authentication Required' });
+    } else if (credentials.isMFAAuthenticationRequired) {
+      this.credentials = credentials;
+      this.alertService.alert({ type: 'Mobile App Authenticator Code Required', message: 'Mobile App Authenticator Code Required' });
     } else {
       if (credentials.shouldRenewPassword) {
         this.credentials = credentials;
         this.alertService.alert({ type: 'Password Expired', message: 'Your password has expired, please reset your password!' });
       } else {
-        console.log('>>>>>>>>> onLoginSuccess setting credentials');
         this.setCredentials(credentials);
         this.alertService.alert({ type: 'Authentication Success', message: `${credentials.username} successfully logged in!` });
         this.authenticationEvent.emit(true);
@@ -282,6 +281,13 @@ export class AuthenticationService {
   }
 
   /**
+   * Gets the two factor authentication delivery methods available for the user.
+   */
+  getMFAStatus() {
+    return this.http.get('/multifactor');
+  }
+
+  /**
    * Requests OTP to be sent via the given delivery method.
    * @param {any} deliveryMethod Delivery method for the OTP.
    */
@@ -298,7 +304,7 @@ export class AuthenticationService {
    */
   validateOTP(otp: string) {
     const httpParams = new HttpParams().set('token', otp);
-    return this.http.post(`/twofactor/validate`, {}, { params: httpParams })
+    return this.http.post(`/multifactor/validate`, {}, { params: httpParams })
       .pipe(
         map(response => {
           this.onOTPValidateSuccess(response);
@@ -312,11 +318,9 @@ export class AuthenticationService {
    * @param {boolean} enrolled returns twa factor data to check if authenticator is enrolled
    */
   validateMultiFactorAppCode(code: string, enrolled: boolean) {
-    this.authenticationInterceptor.setTwoFactorMFACode(code);
-    return this.http.post(`/multifactor/validate`, {'enrolled': enrolled})
+    return this.http.post(`/multifactor/validate`, {'code': code, 'enrolled': enrolled})
       .pipe(
         map(response => {
-          this.authenticationInterceptor.setTwoFactorMFACode(null);
           this.onValidateMFACodeSuccess(response);
         })
       );
@@ -341,8 +345,8 @@ export class AuthenticationService {
       }
       this.setCredentials(this.credentials);
       this.alertService.alert({ type: 'Authentication Success', message: `${this.credentials.username} successfully logged in!` });
+      this.authenticationEvent.emit(true);
       delete this.credentials;
-      // this.storage.setItem(this.twoFactorAuthenticationTokenStorageKey, JSON.stringify(response));
     }
   }
 

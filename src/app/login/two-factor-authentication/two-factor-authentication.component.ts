@@ -7,7 +7,6 @@ import { finalize } from 'rxjs/operators';
 
 /** Custom Services */
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import {MultiFactorAuthentication} from '../multi-factor-authentication.model';
 
 /**
  * Two factor authentication component.
@@ -51,10 +50,11 @@ export class TwoFactorAuthenticationComponent implements OnInit {
   ngOnInit() {
     this.createTwoFactorAuthenticationDeliveryMethodForm();
     this.authenticationService.getDeliveryMethods()
-      .subscribe(( twoFactorData: MultiFactorAuthentication) => {
-        this.twoFactorAuthenticationDeliveryMethods = twoFactorData.otpDeliveryMethods;
+      .subscribe((deliveryMethods: any) => {
+        this.twoFactorAuthenticationDeliveryMethods = deliveryMethods;
       });
   }
+
   /**
    * Requests OTP via the selected delivery method.
    */

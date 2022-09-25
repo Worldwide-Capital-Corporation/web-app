@@ -40,15 +40,11 @@
         Forgot Password (TODO: Decision to be taken on providing this feature.)
     -->
     <div fxLayout="row" fxFlex="3 0 auto" fxLayoutAlign="center center">
-      <mifosx-login-form *ngIf="!resetPassword && !twoFactorAuthenticationRequired"></mifosx-login-form>
+      <mifosx-login-form *ngIf="!resetPassword && !twoFactorAuthenticationRequired && !authenticatorRequired"></mifosx-login-form>
       <mifosx-reset-password *ngIf="resetPassword"></mifosx-reset-password>
-      <mifosx-authenticator-app *ngIf="twoFactorAuthenticationRequired && !authenticatorAppSkipped"></mifosx-authenticator-app>
-      <mifosx-two-factor-authentication *ngIf="twoFactorAuthenticationRequired && authenticatorAppSkipped"></mifosx-two-factor-authentication>
+      <mifosx-authenticator-app *ngIf="authenticatorRequired"></mifosx-authenticator-app>
+      <mifosx-two-factor-authentication *ngIf="twoFactorAuthenticationRequired"></mifosx-two-factor-authentication>
     </div>
-    <br />
-    <button *ngIf="twoFactorAuthenticationRequired && !authenticatorAppSkipped" type="button" mat-button fxFlexAlign="center" class="two-factor-auth-button" (click)="skipAuthenticator()">
-      Try Another Method
-    </button>
 
     <!-- Footer -->
     <mifosx-footer></mifosx-footer>

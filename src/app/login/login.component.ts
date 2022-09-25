@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   resetPassword = false;
   /** True if user requires two factor authentication. */
   twoFactorAuthenticationRequired = false;
-  /** True if user requires authenticator app for authentication. */
-  authenticatorAppSkipped = false;
+  /** True if user requires two factor authentication. */
+  authenticatorRequired = false;
   /** Subscription to alerts. */
   alert$: Subscription;
 
@@ -54,9 +54,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else if (alertType === 'Two Factor Authentication Required') {
         this.resetPassword = false;
         this.twoFactorAuthenticationRequired = true;
+      } else if (alertType === 'Mobile App Authenticator Code Required') {
+        this.resetPassword = false;
+        this.authenticatorRequired = true;
       } else if (alertType === 'Authentication Success') {
         this.resetPassword = false;
         this.twoFactorAuthenticationRequired = false;
+        this.authenticatorRequired = false;
         this.router.navigate(['/dashboard'], { replaceUrl: true });
       }
     });
@@ -67,10 +71,6 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy() {
     this.alert$.unsubscribe();
-  }
-
-  skipAuthenticator() {
-    this.authenticatorAppSkipped = true;
   }
 
 }

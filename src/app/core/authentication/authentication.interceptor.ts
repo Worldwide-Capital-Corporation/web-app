@@ -20,9 +20,6 @@ const authorizationHeader = 'Authorization';
 /** Two factor access token header. */
 const twoFactorAccessTokenHeader = 'Fineract-Platform-TFA-Token';
 
-/** Two factor access token header. */
-const twoFactorMFACodeHeader = 'Fineract-Platform-MFA-Token';
-
 /**
  * Http Request interceptor to set the request headers.
  */
@@ -45,10 +42,8 @@ export class AuthenticationInterceptor implements HttpInterceptor {
    */
   setAuthorizationToken(authenticationKey: string) {
     if (environment.oauth.enabled) {
-      console.log('>>>>>>>>> interceptor setting Bearer to', authenticationKey);
       httpOptions.headers[authorizationHeader] = `Bearer ${authenticationKey}`;
     } else {
-      console.log('>>>>>>>>> interceptor setting Basic to', authenticationKey);
       httpOptions.headers[authorizationHeader] = `Basic ${authenticationKey}`;
     }
   }
@@ -59,18 +54,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
    */
   setTwoFactorAccessToken(twoFactorAccessToken: string) {
     httpOptions.headers[twoFactorAccessTokenHeader] = twoFactorAccessToken;
-  }
-
-  /**
-   * Sets the two factor access token header.
-   * @param {string} twoFactorAccessToken Two factor access token.
-   */
-  setTwoFactorMFACode(code?: string) {
-    if (code === null) {
-      delete httpOptions.headers[twoFactorMFACodeHeader];
-    } else {
-      httpOptions.headers[twoFactorMFACodeHeader] = code;
-    }
   }
 
   /**

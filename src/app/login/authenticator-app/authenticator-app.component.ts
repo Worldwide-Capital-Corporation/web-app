@@ -17,6 +17,8 @@ export class AuthenticatorAppComponent implements OnInit {
   /** MFA model. */
   twoFactorData: MultiFactorAuthentication;
 
+  enrolled?: Boolean = true;
+
   /** True if loading. */
   loading = false;
 
@@ -30,9 +32,10 @@ export class AuthenticatorAppComponent implements OnInit {
    */
   ngOnInit() {
     this.createAppCodeVerificationForm();
-    this.authenticationService.getDeliveryMethods()
+    this.authenticationService.getMFAStatus()
       .subscribe((twoFactorData: MultiFactorAuthentication) => {
         this.twoFactorData = twoFactorData;
+        this.enrolled = twoFactorData.enrolled;
       });
   }
 
@@ -44,7 +47,7 @@ export class AuthenticatorAppComponent implements OnInit {
     this.appCodeVerificationForm.disable();
     this.authenticationService.validateMultiFactorAppCode(
       this.appCodeVerificationForm.value.otp,
-      this.twoFactorData.authenticatorEnrolled
+      this.twoFactorData.enrolled
       )
       .pipe(finalize(() => {
         this.appCodeVerificationForm.reset();

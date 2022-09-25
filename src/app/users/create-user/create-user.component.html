@@ -51,7 +51,7 @@
 
           <div fxFlex="48%" class="password-never-expires-wrapper">
             <mat-checkbox labelPosition="before" formControlName="passwordNeverExpires" >
-              Override password expiry policy
+              Password never expires
             </mat-checkbox>
           </div>
 
@@ -80,7 +80,7 @@
           <p fxFlex="98%" class="reset-password-error" *ngIf="userForm.errors?.passwordsDoNotMatch &&
           (!userForm.controls.password.hasError('required') && !userForm.controls.repeatPassword.hasError('required'))">
           Passwords <strong>do not match</strong>
-          </p>      
+          </p>
 
           <mat-form-field fxFlex="48%">
             <mat-label>Office</mat-label>
@@ -96,11 +96,14 @@
 
           <mat-form-field fxFlex="48%">
             <mat-label>Staff</mat-label>
-            <mat-select formControlName="staffId">
+            <mat-select required formControlName="staffId">
               <mat-option *ngFor="let staff of staffData" [value]="staff.id">
                 {{ staff.displayName }}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="userForm.controls.staffId.hasError('required')">
+              Staff is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field fxFlex="48%">

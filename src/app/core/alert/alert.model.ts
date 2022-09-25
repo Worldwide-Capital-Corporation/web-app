@@ -14,3 +14,19 @@ export class SystemAlert implements Alert {
     this.duration = duration;
   }
 }
+
+export class SystemErrorAlert implements Alert {
+  constructor(public type: string, public message: string, public duration?: number) {
+    this.type = type;
+    this.message = message;
+    this.duration = duration;
+  }
+}
+
+export class AuthenticationErrorAlert implements Alert {
+  constructor(public type: string, public message: string, public duration?: number) {
+    this.type = type;
+    this.message = message;
+    this.duration = duration;
+  }
+}
