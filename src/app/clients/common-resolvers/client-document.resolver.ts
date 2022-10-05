@@ -25,7 +25,7 @@ export class ClientDocumentsResolver implements Resolve<Object> {
      */
     resolve(route: ActivatedRouteSnapshot): Observable<any> {
         const clientId = route.parent.paramMap.get('clientId');
-        return this.clientsService.getClientDocuments(clientId);
+        return this.clientsService.getLatestClientScreening(clientId);
     }
 
 }

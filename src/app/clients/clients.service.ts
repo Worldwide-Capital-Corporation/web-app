@@ -238,6 +238,10 @@ export class ClientsService {
     return this.http.get(`/clients/${clientId}/documents`);
   }
 
+  getLatestClientScreening(clientId: string) {
+    return this.http.get(`/screening/result/${clientId}`);
+  }
+
   downloadClientDocument(parentEntityId: string, documentId: string) {
     return this.http.get(`/clients/${parentEntityId}/documents/${documentId}/attachment`, { responseType: 'blob' });
   }
