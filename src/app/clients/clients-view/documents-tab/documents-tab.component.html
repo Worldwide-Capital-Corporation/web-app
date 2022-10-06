@@ -16,6 +16,15 @@
 
     </div>
 
+    <div *ngIf="isEntity" fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
+
+      <p fxFlex="48%" class="margin-v">Special Interest Entity (SIE) : <strong>{{kycData.isSip ? 'Yes' : 'No'}}</strong></p>
+      <p fxFlex="48%" class="margin-v">Regulatory Enforcement : <strong>{{kycData.isSanctioned ? 'Yes' : 'No'}}</strong></p>
+      <p fxFlex="48%" class="margin-v">Linked to Politically Exposed Person (PEP) : <strong>{{kycData.isPep ? 'Yes' : 'No'}}</strong></p>
+      <p fxFlex="48%" class="margin-v">Financial Crime : <strong>{{kycData.financialCrime ? 'Yes' : 'No'}}</strong></p>
+
+    </div>
+
     <div *ngIf="!showFallback" class="fallback" fxLayoutAlign="center center">
       <p>Screening date: <strong>{{kycData.screeningDate}}</strong></p>
     </div>

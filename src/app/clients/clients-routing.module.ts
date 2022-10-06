@@ -143,7 +143,7 @@ const routes: Routes = [
           {
             path: 'documents',
             component: DocumentsTabComponent,
-            data: { title: extract('Documents'), breadcrumb: 'Documents', routeParamBreadcrumb: false },
+            data: { title: extract('Documents'), breadcrumb: 'KYC Screening', routeParamBreadcrumb: false },
             resolve: {
               clientDocuments: ClientDocumentsResolver
             }
