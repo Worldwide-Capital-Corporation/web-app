@@ -27,7 +27,7 @@ export const environment = {
   },
   defaultLanguage: window['env']['defaultLanguage'] || 'en-US',
   supportedLanguages: window['env']['supportedLanguages'] || 'en-US,fr-FR',
-  idleTime: window['env']['idleTime'] || 120,
+  idleTime: window['env']['idleTime'] || 30000,
   idleTimeout: window['env']['idleTimeout'] || 10
 };
 

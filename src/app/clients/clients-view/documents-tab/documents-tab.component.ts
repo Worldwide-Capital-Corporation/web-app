@@ -14,7 +14,8 @@ export class DocumentsTabComponent implements OnInit {
   kycData: any;
   clientId: string;
   showFallback: boolean;
-  isEntity: boolean;
+  corporation: boolean;
+  individual: boolean;
 
 
   constructor(
@@ -26,10 +27,11 @@ export class DocumentsTabComponent implements OnInit {
       if (data.clientDocuments) {
         this.kycData = data.clientDocuments;
         this.showFallback = false;
+        this.corporation = this.kycData.clientType === 2;
+        this.individual = this.kycData.clientType === 1;
       }
     });
     this.clientId = this.route.parent.snapshot.paramMap.get('clientId');
-
   }
 
   ngOnInit() {

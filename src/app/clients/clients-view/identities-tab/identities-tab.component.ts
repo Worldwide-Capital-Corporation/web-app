@@ -34,7 +34,7 @@ export class IdentitiesTabComponent {
   /** Client Id */
   clientId: string;
   /** Identities Columns */
-  identitiesColumns: string[] = ['id', 'type', 'description', 'documents', 'status', 'actions'];
+  identitiesColumns: string[] = ['type', 'description', 'documents', 'status', 'actions'];
 
   /** Identifiers Table */
   @ViewChild('identifiersTable', { static: true }) identifiersTable: MatTable<Element>;
@@ -51,6 +51,22 @@ export class IdentitiesTabComponent {
     this.route.data.subscribe((data: { clientIdentities: any, clientIdentifierTemplate: any }) => {
       this.clientIdentities = data.clientIdentities;
       this.clientIdentifierTemplate = data.clientIdentifierTemplate;
+      this.reloadData();
+    });
+  }
+
+  /**
+   * Reload list items data
+   */
+  reloadData() {
+    this.clientIdentifierTemplate.allowedDocumentTypes.forEach ( (element: any) => {
+      const uploaded = this.clientIdentities.some( (el: any) => el.documentType.id === element.id);
+      if (!uploaded) {
+        this.clientIdentities.push({
+          'clientId': this.clientId,
+          'documentType': element
+        });
+      }
     });
   }
 
@@ -140,8 +156,7 @@ export class IdentitiesTabComponent {
     deleteIdentifierDialogRef.afterClosed().subscribe((response: any) => {
       if (response.delete) {
         this.clientService.deleteClientIdentifier(clientId, identifierId).subscribe(res => {
-          this.clientIdentities.splice(index, 1);
-          this.identifiersTable.renderRows();
+          this.reloadData();
         });
       }
     });

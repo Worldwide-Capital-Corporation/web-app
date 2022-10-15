@@ -4,7 +4,7 @@
     <h3 *ngIf="showFallback">Client Risk Rating: <strong class="medium">No Data</strong></h3>
     <h3 *ngIf="!showFallback">Client Risk Rating: <strong class="{{kycData.riskRating.toLowerCase()}}">{{kycData.riskRating}}</strong></h3>
 
-    <div *ngIf="!showFallback" fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <div *ngIf="individual" fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
 
       <p fxFlex="48%" class="margin-v">Terrorist Funding (TER) : <strong>{{kycData.isTerrorist ? 'Yes' : 'No'}}</strong></p>
       <p fxFlex="48%" class="margin-v">Bribery and Corruption : <strong>{{kycData.briberyAndCorrupt ? 'Yes' : 'No'}}</strong></p>
@@ -16,7 +16,7 @@
 
     </div>
 
-    <div *ngIf="isEntity" fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <div *ngIf="corporation" fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
 
       <p fxFlex="48%" class="margin-v">Special Interest Entity (SIE) : <strong>{{kycData.isSip ? 'Yes' : 'No'}}</strong></p>
       <p fxFlex="48%" class="margin-v">Regulatory Enforcement : <strong>{{kycData.isSanctioned ? 'Yes' : 'No'}}</strong></p>
@@ -24,7 +24,7 @@
       <p fxFlex="48%" class="margin-v">Financial Crime : <strong>{{kycData.financialCrime ? 'Yes' : 'No'}}</strong></p>
 
     </div>
-
+    <br />
     <div *ngIf="!showFallback" class="fallback" fxLayoutAlign="center center">
       <p>Screening date: <strong>{{kycData.screeningDate}}</strong></p>
     </div>

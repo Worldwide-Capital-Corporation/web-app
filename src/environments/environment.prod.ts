@@ -14,7 +14,7 @@ export const environment = {
   allowServerSwitch: env.allow_switching_backend_instance,
   apiProvider: window['env']['apiProvider'] || '/fineract-provider/api',
   apiVersion: window['env']['apiVersion'] || '/v1',
-  idleTime: window['env']['idleTime'] || 120,
+  idleTime: window['env']['idleTime'] || 300,
   idleTimeout: window['env']['idleTimeout'] || 10,
   serverUrl: '',
   oauth: {
