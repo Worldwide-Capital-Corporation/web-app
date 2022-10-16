@@ -145,7 +145,7 @@ const routes: Routes = [
             component: DocumentsTabComponent,
             data: { title: extract('Documents'), breadcrumb: 'KYC Screening', routeParamBreadcrumb: false },
             resolve: {
-              clientDocuments: ClientDocumentsResolver
+              screeningData: ClientDocumentsResolver
             }
           },
           {

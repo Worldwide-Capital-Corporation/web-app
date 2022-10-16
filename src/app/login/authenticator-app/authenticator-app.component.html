@@ -12,10 +12,10 @@
 </div>
 
 <div fxFlexAlign="center">
-  <form fxLayout="column" [formGroup]="appCodeVerificationForm" class="two-factor-auth-form"
+  <form fxLayout="column" [formGroup]="appCodeVerificationForm" id="app-code-form" class="two-factor-auth-form"
         (ngSubmit)="validateOTP()">
 
-    <mat-form-field fxFlexAlign="center" class="two-factor-auth-input">
+    <mat-form-field fxFlexAlign="center" class="code-input">
     <span matPrefix>
       <fa-icon icon="user-shield"></fa-icon>&nbsp;&nbsp;
     </span>
@@ -26,8 +26,7 @@
       </mat-error>
     </mat-form-field>
 
-    <br />
-    <button mat-raised-button fxLayout="row" color="primary" fxFlexAlign="center" class="login-button"
+    <button mat-raised-button color="primary" fxFlexAlign="center" class="login-button"
             [disabled]="!appCodeVerificationForm.valid">
       Login
       <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>

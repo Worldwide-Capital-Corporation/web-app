@@ -210,14 +210,15 @@
 </div>
 
 <div fxLayout="row" class="margin-t" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="2%">
-  <button mat-raised-button matStepperPrevious>
+  <button mat-raised-button matStepperPrevious [disabled]="loading">
     <fa-icon icon="arrow-left"></fa-icon>&nbsp;&nbsp;
     Previous
   </button>
-  <button mat-raised-button [routerLink]="['../']">
+  <button mat-raised-button [routerLink]="['../']" [disabled]="loading">
     Cancel
   </button>
-  <button mat-raised-button color="primary" (click)="submit.emit()">
+  <button mat-raised-button color="primary" class="add-client-button" [disabled]="loading" (click)="submit.emit()">
     Submit
+    <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>
   </button>
 </div>

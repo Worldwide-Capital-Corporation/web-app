@@ -21,6 +21,9 @@ export class ClientPreviewStepComponent {
   /** Form submission event */
   @Output() submit = new EventEmitter();
 
+  /** Loader */
+  @Input() loading: boolean;
+
   constructor() { }
 
   /**

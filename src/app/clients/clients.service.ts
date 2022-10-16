@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 /** rxjs Imports */
 import { Observable } from 'rxjs';
+import {AlertService} from '../core/alert/alert.service';
 /**
  * Clients service.
  */
@@ -14,7 +15,7 @@ export class ClientsService {
   /**
    * @param {HttpClient} http Http Client to send requests.
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private alertService: AlertService) { }
 
   getFilteredClients(orderBy: string, sortOrder: string, orphansOnly: boolean, displayName: string, officeId?: any): Observable<any> {
     let httpParams = new HttpParams()
@@ -46,6 +47,7 @@ export class ClientsService {
   }
 
   createClient(client: any) {
+    this.alertService.alert({ type: 'Creating Client', message: 'Please wait...' });
     return this.http.post(`/clients`, client);
   }
 
@@ -236,6 +238,10 @@ export class ClientsService {
 
   getClientDocuments(clientId: string) {
     return this.http.get(`/clients/${clientId}/documents`);
+  }
+
+  runRiskScreening(clientId: string) {
+    return this.http.post(`/screening/${clientId}`, {});
   }
 
   getLatestClientScreening(clientId: string) {

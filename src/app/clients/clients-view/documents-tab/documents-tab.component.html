@@ -1,32 +1,115 @@
 <div class="tab-container mat-typography">
-
-    <!-- Documents Table -->
-    <h3 *ngIf="showFallback">Client Risk Rating: <strong class="medium">No Data</strong></h3>
-    <h3 *ngIf="!showFallback">Client Risk Rating: <strong class="{{kycData.riskRating.toLowerCase()}}">{{kycData.riskRating}}</strong></h3>
-
+    <br/>
+    <div fxLayout="row wrap" class="content">
+      <div fxFlex="50%" class="mat-body-strong">
+        <mat-chip-list aria-label="Risk Rating">
+          Risk Rating
+          <mat-chip color="{{riskRatingColor}}" class="{{riskRatingText.toLowerCase()}}" selected>
+            {{riskRatingText}}
+          </mat-chip>
+          <mat-chip *ngIf="!kycData.isVerifiedMatch">
+            not verified
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <div fxFlex="50%">
+        <button mat-raised-button color="primary" class="screen-button" [disabled]="loading" (click)="runRiskScreening()">
+          <fa-icon icon="sync"></fa-icon>&nbsp;&nbsp;
+          Run Risk Screening
+          <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>
+        </button>
+      </div>
+    </div>
+    <br/>
     <div *ngIf="individual" fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
 
-      <p fxFlex="48%" class="margin-v">Terrorist Funding (TER) : <strong>{{kycData.isTerrorist ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Bribery and Corruption : <strong>{{kycData.briberyAndCorrupt ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Sanctions Lists : <strong>{{kycData.isSanctioned ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Politically Exposed Person (PEP) : <strong>{{kycData.isPep ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Special Interest Person (SIP) : <strong>{{kycData.isSip ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Relatives and Close Associates (RCA) : <strong>{{kycData.isRca ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Financial Crime : <strong>{{kycData.financialCrime ? 'Yes' : 'No'}}</strong></p>
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="TER">
+        Terrorist Funding (TER)
+        <mat-chip>
+          {{kycData.isTerrorist ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="Bribery and Corruption">
+        Bribery and Corruption
+        <mat-chip>
+          {{kycData.briberyAndCorrupt ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="Sanctions Lists">
+        Sanctions Lists
+        <mat-chip>
+          {{kycData.isSanctioned ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="PEP">
+        Politically Exposed Person (PEP)
+        <mat-chip>
+          {{kycData.isPep ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="SIP">
+        Special Interest Person (SIP)
+        <mat-chip>
+          {{kycData.isSip ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="RCA">
+        Relatives and Close Associates (RCA)
+        <mat-chip>
+          {{kycData.isRca ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="Financial Crime">
+        Financial Crime
+        <mat-chip>
+          {{kycData.financialCrime ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <div *ngIf="!showFallback" fxFlex="48%" class="margin-v">
+        <p>Screening date: <strong>{{screeningDate(kycData.screeningDate)}}</strong></p>
+      </div>
 
     </div>
 
     <div *ngIf="corporation" fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
 
-      <p fxFlex="48%" class="margin-v">Special Interest Entity (SIE) : <strong>{{kycData.isSip ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Regulatory Enforcement : <strong>{{kycData.isSanctioned ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Linked to Politically Exposed Person (PEP) : <strong>{{kycData.isPep ? 'Yes' : 'No'}}</strong></p>
-      <p fxFlex="48%" class="margin-v">Financial Crime : <strong>{{kycData.financialCrime ? 'Yes' : 'No'}}</strong></p>
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="SIE">
+        Special Interest Entity (SIE)
+        <mat-chip>
+          {{kycData.isSip ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="Regulatory Enforcement">
+        Regulatory Enforcement
+        <mat-chip>
+          {{kycData.isSanctioned ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="PEP">
+        Linked to Politically Exposed Person (PEP)
+        <mat-chip>
+          {{kycData.isPep ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list fxFlex="48%" class="margin-v" aria-label="Financial Crime">
+        Financial Crime
+        <mat-chip>
+          {{kycData.financialCrime ? 'Yes' : 'No'}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <div *ngIf="!showFallback" fxFlex="48%" class="margin-v">
+        <p>Screening date: <strong>{{screeningDate(kycData.screeningDate)}}</strong></p>
+      </div>
 
     </div>
-    <br />
-    <div *ngIf="!showFallback" class="fallback" fxLayoutAlign="center center">
-      <p>Screening date: <strong>{{kycData.screeningDate}}</strong></p>
-    </div>
-
 </div>

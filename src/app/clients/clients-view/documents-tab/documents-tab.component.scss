@@ -12,13 +12,23 @@
   .margin-t {
     margin-top: 2em;
   }
-  .low {
-    color: green;
+
+  .screen-button {
+    width: 14rem;
+  }
+  .low{
   }
   .medium {
-    color: #FFA500;
+    background-color: #FFA500FF;
+    color: white;
   }
+
   .high {
-    color: red;
+
+  }
+
+  mat-spinner {
+    float: right;
+    margin: 0.5rem 0;
   }
 }

@@ -36,6 +36,9 @@ export class CreateClientComponent {
   /** Client Address Field Config */
   clientAddressFieldConfig: any;
 
+  /** loader when posting client data to API */
+  loading: boolean;
+
   /**
    * Fetches client and address template from `resolve`
    * @param {ActivatedRoute} route Activated Route
@@ -81,6 +84,7 @@ export class CreateClientComponent {
    * Submits the create client form.
    */
   submit() {
+    this.loading = true;
     const locale = this.settingsService.language.code;
     const dateFormat = this.settingsService.dateFormat;
     // TODO: Update once language and date settings are setup
@@ -89,9 +93,12 @@ export class CreateClientComponent {
       dateFormat,
       locale
     };
-    this.clientsService.createClient(clientData).subscribe((response: any) => {
-      this.router.navigate(['../', response.resourceId], { relativeTo: this.route });
-    });
+    this.clientsService.createClient(clientData).subscribe(
+      (response: any) => {
+        this.router.navigate(['../', response.resourceId], {relativeTo: this.route});
+      },
+      (error: any) => {
+        this.loading = false;
+      });
   }
-
 }

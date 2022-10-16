@@ -30,3 +30,4 @@ export class AuthenticationErrorAlert implements Alert {
     this.duration = duration;
   }
 }
+
