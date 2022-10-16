@@ -57,13 +57,17 @@ export class DocumentsTabComponent implements OnInit {
 
   runRiskScreening() {
     this.loading = true;
-    this.clientsService.runRiskScreening(this.clientId).subscribe( (response: any) => {
+    this.clientsService.runRiskScreening(this.clientId).subscribe(
+      (response: any) => {
       this.kycData = response.latest;
       this.riskRatingResponse = response;
       this.showFallback = false;
       this.processResponse();
       this.loading = false;
-    });
+    },
+      (error: any) => {
+        this.loading = false;
+      });
   }
 
   screeningDate(epoc: number): string {
