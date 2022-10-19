@@ -154,7 +154,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let match">
-          <button class="identity-action-button" [disabled]="loadingMatch" mat-raised-button color="primary" (click)="markMatched(match.id)">
+          <button *ngIf="!match.isVerifiedMatch" class="identity-action-button" [disabled]="loadingMatch" mat-raised-button color="primary" (click)="markMatched(match.id, match.screeningId)">
             <mat-spinner [diameter]="20" *ngIf="loadingMatch"></mat-spinner>
             <fa-icon *ngIf="!loadingMatch" icon="check-circle"></fa-icon>
           </button>

@@ -77,10 +77,13 @@ export class DocumentsTabComponent implements OnInit {
     return new Date(epoc).toLocaleString();
   }
 
-  markMatched(id: string) {
+  markMatched(id: string, screeningId: string) {
     this.loadingMatch = true;
-    this.clientsService.markMatched(id).subscribe(
+    this.clientsService.markMatched(id, screeningId, this.clientId).subscribe(
       (response: any) => {
+        this.kycData = response.latest;
+        this.matches = response.matches;
+        this.processResponse();
         this.loadingMatch = false;
       },
       (error: any) => {
