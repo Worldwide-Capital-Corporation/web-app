@@ -1,6 +1,5 @@
 <div class="tab-container mat-typography">
-    <br/>
-    <div fxLayout="row wrap" class="content">
+    <div fxLayout="row wrap" class="content margin-t">
       <div fxFlex="50%" class="mat-body-strong">
         <mat-chip-list aria-label="Risk Rating">
           Risk Rating
@@ -21,6 +20,7 @@
       </div>
     </div>
     <br/>
+
     <div *ngIf="individual" fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
 
       <mat-chip-list fxFlex="48%" class="margin-v" aria-label="TER">
@@ -59,7 +59,7 @@
       </mat-chip-list>
 
       <mat-chip-list fxFlex="48%" class="margin-v" aria-label="RCA">
-        Relatives and Close Associates (RCA)
+        Relatives or Close Associates (RCA)
         <mat-chip>
           {{kycData.isRca ? 'Yes' : 'No'}}
         </mat-chip>
@@ -110,6 +110,61 @@
       <div *ngIf="!showFallback" fxFlex="48%" class="margin-v">
         <p>Screening date: <strong>{{screeningDate(kycData.screeningDate)}}</strong></p>
       </div>
-
     </div>
+
+  <div *ngIf="individual && matches" fxLayout="column wrap" class="content margin-t">
+
+    <h3 fxFlexAlign="left"> {{kycData.matches}} match(es) found</h3>
+    <p>Please select all positive matches to marked them as matched</p>
+
+    <table mat-table [dataSource]="matches">
+
+      <ng-container matColumnDef="matchedFields">
+        <th mat-header-cell *matHeaderCellDef>Matched By</th>
+        <td mat-cell *matCellDef="let match">
+          <strong>{{match.matchedFields}}</strong> <br>
+          <strong>Full Name: </strong>{{match.firstName}} {{match.middleName}} {{match.lastName}}<br>
+          <strong>Gender: </strong>{{match.gender}}<br>
+          <strong>Location: </strong>{{match.primaryLocation || match.location}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let match">
+          <mat-chip>
+            {{match.category}}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="categories">
+        <th mat-header-cell *matHeaderCellDef>Categories</th>
+        <td mat-cell *matCellDef="let match">{{match.categories}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="imageUrl">
+        <th mat-header-cell *matHeaderCellDef>Picture</th>
+        <td mat-cell *matCellDef="let match">
+          <img mat-card-md-image
+               [src]="(match.imageUrl)?match.imageUrl:'assets/images/user_placeholder.png'">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let match">
+          <button class="identity-action-button" [disabled]="loadingMatch" mat-raised-button color="primary" (click)="markMatched(match.id)">
+            <mat-spinner [diameter]="20" *ngIf="loadingMatch"></mat-spinner>
+            <fa-icon *ngIf="!loadingMatch" icon="check-circle"></fa-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="matchesColumns"></tr>
+      <tr mat-row *matRowDef="let match; columns: matchesColumns;"></tr>
+
+    </table>
+  </div>
+
 </div>

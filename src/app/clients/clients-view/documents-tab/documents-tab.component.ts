@@ -11,7 +11,6 @@ import {ClientsService} from '../../clients.service';
 })
 export class DocumentsTabComponent implements OnInit {
 
-  riskRatingResponse: any;
   kycData: any;
   clientId: string;
   showFallback: boolean;
@@ -20,6 +19,10 @@ export class DocumentsTabComponent implements OnInit {
   riskRatingColor: string;
   riskRatingText: string;
   loading = false;
+  loadingMatch = false;
+
+  matchesColumns: string[] = ['matchedFields', 'category', 'categories', 'imageUrl', 'actions'];
+  matches: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +34,7 @@ export class DocumentsTabComponent implements OnInit {
     this.route.data.subscribe((data: { screeningData: any }) => {
       if (data.screeningData) {
         this.kycData = data.screeningData.latest;
-        this.riskRatingResponse = data.screeningData;
+        this.matches = data.screeningData.matches;
         this.showFallback = false;
         this.processResponse();
       }
@@ -60,7 +63,7 @@ export class DocumentsTabComponent implements OnInit {
     this.clientsService.runRiskScreening(this.clientId).subscribe(
       (response: any) => {
       this.kycData = response.latest;
-      this.riskRatingResponse = response;
+      this.matches = response.matches;
       this.showFallback = false;
       this.processResponse();
       this.loading = false;
@@ -72,5 +75,17 @@ export class DocumentsTabComponent implements OnInit {
 
   screeningDate(epoc: number): string {
     return new Date(epoc).toLocaleString();
+  }
+
+  markMatched(id: string) {
+    this.loadingMatch = true;
+    this.clientsService.markMatched(id).subscribe(
+      (response: any) => {
+        this.loadingMatch = false;
+      },
+      (error: any) => {
+        this.loadingMatch = false;
+      }
+    );
   }
 }

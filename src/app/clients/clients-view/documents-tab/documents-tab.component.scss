@@ -16,16 +16,19 @@
   .screen-button {
     width: 14rem;
   }
-  .low{
-  }
+
+  .low{}
   .medium {
     background-color: #FFA500FF;
     color: white;
   }
 
-  .high {
-
+  .mat-cell {
+    padding-left: 8px;
+    padding-right: 8px;
   }
+
+  .high {}
 
   mat-spinner {
     float: right;

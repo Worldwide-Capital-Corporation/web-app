@@ -244,6 +244,10 @@ export class ClientsService {
     return this.http.post(`/screening/${clientId}`, {});
   }
 
+  markMatched(matchId: string) {
+    return this.http.post(`/screening/result/${matchId}`, {});
+  }
+
   getLatestClientScreening(clientId: string) {
     return this.http.get(`/screening/result/${clientId}`);
   }
