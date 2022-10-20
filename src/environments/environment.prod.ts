@@ -8,9 +8,9 @@ export const environment = {
   // For connecting to server running elsewhere update the tenant identifier
   fineractPlatformTenantId: window['env']['fineractPlatformTenantId'] || 'default',
   // For connecting to others servers running elsewhere update the base API URL
-  baseApiUrls: window['env']['fineractApiUrls'] || 'https://localhost:8443,https://137.184.51.196:8443',
+  baseApiUrls: window['env']['fineractApiUrls'] || 'https://localhost:8443,https://102.222.135.60:8443',
   // For connecting to server running elsewhere set the base API URL
-  baseApiUrl: window['env']['fineractApiUrl'] || 'https://137.184.51.196:8443',
+  baseApiUrl: window['env']['fineractApiUrl'] || 'https://102.222.135.60:8443',
   allowServerSwitch: env.allow_switching_backend_instance,
   apiProvider: window['env']['apiProvider'] || '/fineract-provider/api',
   apiVersion: window['env']['apiVersion'] || '/v1',
