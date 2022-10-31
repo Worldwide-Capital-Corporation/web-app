@@ -38,7 +38,7 @@
             Client #:{{clientViewData.accountNo}} | External
             Id: {{clientViewData.externalId}} | Staff:{{clientViewData.staffName || 'Unassigned'}}<br />
             Activation Date :
-            {{(clientViewData.activation)?(clientViewData.activationDate | dateFormat) :'Not Activated'}}<br />
+            {{(clientViewData.active)?(clientViewData.activationDate | dateFormat) :'Not Activated'}}<br />
             Member Of :
             <span *ngFor="let group of clientViewData.groups">
               <a>{{group.name}}</a>&nbsp;
@@ -122,7 +122,7 @@
       </a>
       <a mat-tab-link [routerLink]="['./identities']" routerLinkActive #identities="routerLinkActive"
          [active]="identities.isActive" *mifosxHasPermission="'READ_CLIENTIDENTIFIER'">
-        KYC Documents
+        {{clientViewData.legalForm.id === 1 ? 'Client Documents' : 'Entity Documents'}}
       </a>
       <a mat-tab-link [routerLink]="['./address']" routerLinkActive #address="routerLinkActive"
         [active]="address.isActive">
@@ -130,11 +130,11 @@
       </a>
       <a mat-tab-link [routerLink]="['./family-members']" routerLinkActive #familyMembers="routerLinkActive"
         [active]="familyMembers.isActive">
-        Family Members
+        {{clientViewData.legalForm.id === 1 ? 'Family Members' : 'Beneficiaries Owners'}}
       </a>
       <a mat-tab-link [routerLink]="['./documents']" routerLinkActive #documents="routerLinkActive"
         [active]="documents.isActive" *mifosxHasPermission="'READ_DOCUMENT'">
-        KYC Screening
+        Risk Screening
       </a>
       <a mat-tab-link [routerLink]="['./notes']" routerLinkActive #notes="routerLinkActive"
         [active]="notes.isActive" *mifosxHasPermission="'READ_CLIENTNOTE'">

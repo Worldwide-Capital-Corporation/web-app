@@ -15,11 +15,6 @@
     <span fxFlex="60%">{{ client.officeId | find:clientTemplate.officeOptions:'id':'name' }}</span>
   </div>
 
-  <div fxFlexFill>
-    <span fxFlex="40%">Legal Form</span>
-    <span fxFlex="60%">{{ client.legalFormId | find:clientTemplate.clientLegalFormOptions:'id':'value' }}</span>
-  </div>
-
   <div fxFlexFill *ngIf="client.staffId">
     <span fxFlex="40%">Staff</span>
     <span fxFlex="60%">{{ client.staffId | find:clientTemplate.staffOptions:'id':'displayName' }}</span>
@@ -31,7 +26,7 @@
   </div>
 
   <div fxFlexFill *ngIf="client.externalId">
-    <span fxFlex="40%">External Id</span>
+    <span fxFlex="40%">ID Number</span>
     <span fxFlex="60%">{{ client.externalId }}</span>
   </div>
 
@@ -75,48 +70,15 @@
     <span fxFlex="60%">{{ client.activationDate  | dateFormat }}</span>
   </div>
 
-  <ng-container *ngIf="client.legalFormId === 1">
+  <div fxFlexFill *ngIf="client.genderId">
+    <span fxFlex="40%">Gender</span>
+    <span fxFlex="60%">{{ client.genderId | find:clientTemplate.genderOptions:'id':'name' }}</span>
+  </div>
 
-    <div fxFlexFill *ngIf="client.genderId">
-      <span fxFlex="40%">Gender</span>
-      <span fxFlex="60%">{{ client.genderId | find:clientTemplate.genderOptions:'id':'name' }}</span>
-    </div>
-
-    <div fxFlexFill>
-      <span fxFlex="40%">Is Staff?</span>
-      <span fxFlex="60%">{{ client.isStaff ? 'Yes' : 'No' }}</span>
-    </div>
-
-  </ng-container>
-
-  <ng-container *ngIf="client.legalFormId === 2">
-
-    <div fxFlexFill *ngIf="client.clientNonPersonDetails.incorpValidityTillDate">
-      <span fxFlex="40%">Incorporation Validity Till Date</span>
-      <span fxFlex="60%">{{ client.clientNonPersonDetails.incorpValidityTillDate  | dateFormat }}</span>
-    </div>
-
-    <div fxFlexFill>
-      <span fxFlex="40%">Incorportation Number</span>
-      <span fxFlex="60%">{{ client.clientNonPersonDetails.incorpNumber || 'Not Provided' }}</span>
-    </div>
-
-    <div fxFlexFill *ngIf="client.clientNonPersonDetails.mainBusinessLineId">
-      <span fxFlex="40%">Main Business Line</span>
-      <span fxFlex="60%">{{ client.clientNonPersonDetails.mainBusinessLineId | find:clientTemplate.clientNonPersonMainBusinessLineOptions:'id':'name' }}</span>
-    </div>
-
-    <div fxFlexFill *ngIf="client.clientNonPersonDetails.constitutionId">
-      <span fxFlex="40%">Constitution</span>
-      <span fxFlex="60%">{{ client.clientNonPersonDetails.constitutionId | find:clientTemplate.clientNonPersonConstitutionOptions:'id':'name'}}</span>
-    </div>
-
-    <div fxFlexFill>
-      <span fxFlex="40%">Remarks</span>
-      <span fxFlex="60%">{{ client.clientNonPersonDetails.remarks || 'N/A' }}</span>
-    </div>
-
-  </ng-container>
+  <div fxFlexFill>
+    <span fxFlex="40%">Is Staff?</span>
+    <span fxFlex="60%">{{ client.isStaff ? 'Yes' : 'No' }}</span>
+  </div>
 
   <div fxFlexFill *ngIf="client.familyMembers.length" fxLayout="row wrap" fxLayout.lt-md="column" class="m-b-20">
 
@@ -162,7 +124,7 @@
 
   </div>
 
-  <div fxFlexFill *ngIf="clientTemplate.isAddressEnabled && client.address.length" fxLayout="row wrap" fxLayout.lt-md="column">
+  <div fxFlexFill *ngIf="clientTemplate.isAddressEnabled && client.address && client.address.length" fxLayout="row wrap" fxLayout.lt-md="column">
 
     <h3 class="mat-h3" fxFlexFill>Address</h3>
 

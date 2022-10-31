@@ -34,7 +34,7 @@ export class IdentitiesTabComponent {
   /** Client Id */
   clientId: string;
   /** Identities Columns */
-  identitiesColumns: string[] = ['id', 'type', 'description', 'documents', 'status', 'actions'];
+  identitiesColumns: string[] = ['id', 'type', 'documents', 'uploadedAt', 'valid', 'status', 'actions'];
 
   /** Identifiers Table */
   @ViewChild('identifiersTable', { static: true }) identifiersTable: MatTable<Element>;
@@ -65,7 +65,7 @@ export class IdentitiesTabComponent {
       window.open(url);
     });
   }
-
+  setAllExpired() {}
   /**
    * Add Client Identifier
    */
@@ -160,19 +160,46 @@ export class IdentitiesTabComponent {
       if (dialogResponse) {
         const formData: FormData = new FormData;
         formData.append('name', dialogResponse.fileName);
+        formData.append('dateIssued', dialogResponse.fileName);
         formData.append('file', dialogResponse.file);
         this.clientService.uploadClientIdentifierDocument(identifierId, formData).subscribe((res: any) => {
-          this.clientIdentities[index].documents.push({
-            id: res.resourceId,
-            parentEntityType: 'client_identifiers',
-            parentEntityId: identifierId,
-            name: dialogResponse.fileName,
-            fileName: dialogResponse.file.name
+          this.clientService.updateClientIdentifier(identifierId).subscribe((identifier: any) => {
+            this.clientIdentities[index].documents.push({
+              id: res.resourceId,
+              parentEntityType: 'client_identifiers',
+              parentEntityId: identifierId,
+              name: dialogResponse.fileName,
+              fileName: dialogResponse.file.name
+            });
+            this.clientIdentities[index].uploadDate = identifier.uploadDate;
+            this.clientIdentities[index].expiryDate = identifier.expiryDate;
+            this.clientIdentities[index].status = identifier.status;
+            this.identifiersTable.renderRows();
           });
-          this.identifiersTable.renderRows();
         });
       }
     });
   }
 
+  getDocumentStatus(status: string, index: number) {
+    if (status === 'clientIdentifierStatusType.active') {
+      return 'Active';
+    } else if (status === 'clientIdentifierStatusType.pending') {
+      if (this.clientIdentities[index].documentType.mandatory) {
+        return 'Pending';
+      }
+      return 'Optional';
+    } else if (status === 'clientIdentifierStatusType.expired') {
+      return 'Expired';
+    } else {
+      return 'Inactive';
+    }
+  }
+
+  documentDate(epoc: number): string {
+    if (epoc === 0) {
+      return null;
+    }
+    return new Date(epoc).toLocaleDateString();
+  }
 }

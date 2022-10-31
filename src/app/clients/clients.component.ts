@@ -35,6 +35,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getClients();
+    console.log('>>>>>>>>', this.dataSource);
   }
 
   ngAfterViewInit() {

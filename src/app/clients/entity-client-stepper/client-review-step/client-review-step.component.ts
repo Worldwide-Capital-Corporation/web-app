@@ -1,30 +1,24 @@
-/** Angular Imports */
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-/**
- * Client Preview Step Component
- */
 @Component({
-  selector: 'mifosx-client-preview-step',
-  templateUrl: './client-preview-step.component.html',
-  styleUrls: ['./client-preview-step.component.scss']
+  selector: 'mifosx-client-review-step',
+  templateUrl: './client-review-step.component.html',
+  styleUrls: ['./client-review-step.component.scss']
 })
-export class ClientPreviewStepComponent {
-
+export class ClientReviewStepComponent {
   /** Client Address field configuration */
   @Input() clientAddressFieldConfig: any;
   /** Client Template */
   @Input() clientTemplate: any;
   /** Client Object */
   @Input() client: any;
-
   /** Form submission event */
   @Output() submit = new EventEmitter();
 
   /** Loader */
   @Input() loading: boolean;
 
-  constructor() {}
+  constructor() { }
 
   /**
    * Utilized in address preview.
@@ -43,5 +37,4 @@ export class ClientPreviewStepComponent {
   isFieldEnabled(fieldName: any) {
     return (this.clientAddressFieldConfig.find((fieldObj: any) => fieldObj.field === fieldName))?.isEnabled;
   }
-
 }

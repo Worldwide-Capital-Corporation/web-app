@@ -7,6 +7,7 @@ import { finalize } from 'rxjs/operators';
 
 /** Custom Services */
 import { AuthenticationService } from '../../core/authentication/authentication.service';
+import {any} from 'codelyzer/util/function';
 
 /**
  * Login form component.
@@ -51,11 +52,20 @@ export class LoginFormComponent implements OnInit {
     this.authenticationService.login(this.loginForm.value)
       .pipe(finalize(() => {
         this.loginForm.reset();
-        this.loginForm.markAsPristine();
+        Object.keys(this.loginForm.controls).forEach(key => {
+          this.loginForm.get(key).setErrors(null);
+        });
         // Angular Material Bug: Validation errors won't get removed on reset.
         this.loginForm.enable();
         this.loading = false;
-      })).subscribe();
+      })).subscribe(
+        (response: any) => {
+          console.log('Response: ', response);
+        },
+        (error: any) => {
+          console.log('Error: ', error);
+        }
+    );
   }
 
   /**

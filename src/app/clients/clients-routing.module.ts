@@ -49,6 +49,8 @@ import { ClientChargeViewResolver } from './common-resolvers/client-charge-view.
 import { ClientTransactionPayResolver } from './common-resolvers/client-transaction-pay.resolver';
 import { ClientDataAndTemplateResolver } from './common-resolvers/client-and-template.resolver';
 import { ClientCollateralResolver } from './common-resolvers/client-collateral.resolver';
+import {CreateEntityClientComponent} from './create-entity-client/create-entity-client.component';
+import {ClientBeneficiaryOwnersResolver} from './common-resolvers/client-beneficiary-owners.resolver';
 
 const routes: Routes = [
   Route.withShell([{
@@ -63,6 +65,15 @@ const routes: Routes = [
         path: 'create',
         data: { title: extract('Create Client'), breadcrumb: 'Create Client', routeParamBreadcrumb: false },
         component: CreateClientComponent,
+        resolve: {
+          clientAddressFieldConfig: ClientAddressFieldConfigurationResolver,
+          clientTemplate: ClientTemplateResolver
+        }
+      },
+      {
+        path: 'create/entity',
+        data: { title: extract('Create Client'), breadcrumb: 'Create Entity Client', routeParamBreadcrumb: false },
+        component: CreateEntityClientComponent,
         resolve: {
           clientAddressFieldConfig: ClientAddressFieldConfigurationResolver,
           clientTemplate: ClientTemplateResolver
@@ -100,13 +111,14 @@ const routes: Routes = [
           },
           {
             path: 'family-members',
-            data: { title: extract('Family Members'), breadcrumb: 'Family Members', routeParamBreadcrumb: false },
+            data: { title: extract('Members'), breadcrumb: 'Members', routeParamBreadcrumb: false },
             children: [
               {
                 path: '',
                 component: FamilyMembersTabComponent,
                 resolve: {
-                  clientFamilyMembers: ClientFamilyMembersResolver
+                  clientFamilyMembers: ClientFamilyMembersResolver,
+                  clientBeneficiaryOwners: ClientBeneficiaryOwnersResolver
                 }
               },
               {
@@ -277,6 +289,7 @@ const routes: Routes = [
     ClientChargesResolver,
     ClientSummaryResolver,
     ClientFamilyMembersResolver,
+    ClientBeneficiaryOwnersResolver,
     ClientFamilyMemberResolver,
     ClientTemplateResolver,
     ClientIdentitiesResolver,

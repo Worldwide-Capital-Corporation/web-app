@@ -6,13 +6,18 @@
           <mat-chip color="{{riskRatingColor}}" class="{{riskRatingText.toLowerCase()}}" selected>
             {{riskRatingText}}
           </mat-chip>
-          <mat-chip *ngIf="!kycData.isVerifiedMatch">
+          <mat-chip *ngIf="kycData && !kycData.isVerifiedMatch">
             not verified
           </mat-chip>
         </mat-chip-list>
       </div>
-      <div fxFlex="50%">
-        <button mat-raised-button color="primary" class="screen-button" [disabled]="loading" (click)="runRiskScreening()">
+      <div fxFlex="50%" *mifosxHasPermission="'RUN_KYC_SCREENING'">
+        <button mat-raised-button
+                *ngIf="isKycScreeningEnabled"
+                color="primary"
+                class="screen-button"
+                [disabled]="loading"
+                (click)="runRiskScreening()">
           <fa-icon icon="sync"></fa-icon>&nbsp;&nbsp;
           Run Risk Screening
           <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>

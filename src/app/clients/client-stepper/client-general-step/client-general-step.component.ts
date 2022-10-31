@@ -30,16 +30,10 @@ export class ClientGeneralStepComponent implements OnInit {
   officeOptions: any;
   /** Staff Options */
   staffOptions: any;
-  /** Legal Form Options */
-  legalFormOptions: any;
   /** Client Type Options */
   clientTypeOptions: any;
   /** Client Classification Options */
   clientClassificationTypeOptions: any;
-  /** Business Line Options */
-  businessLineOptions: any;
-  /** Constitution Options */
-  constitutionOptions: any;
   /** Gender Options */
   genderOptions: any;
   /** Saving Product Options */
@@ -69,12 +63,12 @@ export class ClientGeneralStepComponent implements OnInit {
     this.createClientForm = this.formBuilder.group({
       'officeId': ['', Validators.required],
       'staffId': [''],
-      'legalFormId': [''],
+      'legalFormId': ['1'],
       'isStaff': [false],
       'active': [false],
       'addSavings': [false],
       'accountNo': [''],
-      'externalId': [''],
+      'externalId': ['', [Validators.required, Validators.pattern('^[0-9]{13}$')]],
       'genderId': [''],
       'mobileNo': [''],
       'emailAddress': ['', Validators.email],
@@ -91,11 +85,8 @@ export class ClientGeneralStepComponent implements OnInit {
   setOptions() {
     this.officeOptions = this.clientTemplate.officeOptions;
     this.staffOptions = this.clientTemplate.staffOptions;
-    this.legalFormOptions = this.clientTemplate.clientLegalFormOptions;
     this.clientTypeOptions = this.clientTemplate.clientTypeOptions;
     this.clientClassificationTypeOptions = this.clientTemplate.clientClassificationOptions;
-    this.businessLineOptions = this.clientTemplate.clientNonPersonMainBusinessLineOptions;
-    this.constitutionOptions = this.clientTemplate.clientNonPersonConstitutionOptions;
     this.genderOptions = this.clientTemplate.genderOptions;
     this.savingProductOptions = this.clientTemplate.savingProductOptions;
   }
@@ -104,28 +95,9 @@ export class ClientGeneralStepComponent implements OnInit {
    * Adds controls conditionally.
    */
   buildDependencies() {
-    this.createClientForm.get('legalFormId').valueChanges.subscribe((legalFormId: any) => {
-      if (legalFormId === 1) {
-        this.createClientForm.removeControl('fullname');
-        this.createClientForm.removeControl('clientNonPersonDetails');
-        this.createClientForm.addControl('firstname', new FormControl('', [Validators.required, Validators.pattern('(^[A-z]).*')]));
-        this.createClientForm.addControl('middlename', new FormControl('', Validators.pattern('(^[A-z]).*')));
-        this.createClientForm.addControl('lastname', new FormControl('', [Validators.required, Validators.pattern('(^[A-z]).*')]));
-      } else {
-        this.createClientForm.removeControl('firstname');
-        this.createClientForm.removeControl('middlename');
-        this.createClientForm.removeControl('lastname');
-        this.createClientForm.addControl('fullname', new FormControl('', [Validators.required, Validators.pattern('(^[A-z]).*')]));
-        this.createClientForm.addControl('clientNonPersonDetails', this.formBuilder.group({
-          'constitutionId': ['', Validators.required],
-          'incorpValidityTillDate': [''],
-          'incorpNumber': [''],
-          'mainBusinessLineId': [''],
-          'remarks': ['']
-        }));
-      }
-    });
-    this.createClientForm.get('legalFormId').patchValue(1);
+    this.createClientForm.addControl('firstname', new FormControl('', [Validators.required, Validators.pattern('(^[A-z]).*')]));
+    this.createClientForm.addControl('middlename', new FormControl('', Validators.pattern('(^[A-z]).*')));
+    this.createClientForm.addControl('lastname', new FormControl('', [Validators.required, Validators.pattern('(^[A-z]).*')]));
     this.createClientForm.get('active').valueChanges.subscribe((active: boolean) => {
       if (active) {
         this.createClientForm.addControl('activationDate', new FormControl('', Validators.required));

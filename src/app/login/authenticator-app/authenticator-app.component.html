@@ -20,9 +20,12 @@
       <fa-icon icon="user-shield"></fa-icon>&nbsp;&nbsp;
     </span>
       <mat-label>Enter Code</mat-label>
-      <input type="password" matInput autocomplete="off" required formControlName="otp">
+      <input matInput autocomplete="off" required formControlName="otp">
       <mat-error *ngIf="appCodeVerificationForm.controls.otp.hasError('required')">
         App code is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="appCodeVerificationForm.controls.otp.hasError('pattern')">
+        Enter valid 6 digit authenticator code
       </mat-error>
     </mat-form-field>
 

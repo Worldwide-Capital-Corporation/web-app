@@ -12,9 +12,14 @@
         <fa-icon icon="download"></fa-icon>&nbsp;&nbsp;Import Client
       </button>
       <button mat-raised-button color="primary" [routerLink]="['create']" *mifosxHasPermission="'CREATE_CLIENT'">
-        <fa-icon icon="plus"></fa-icon>&nbsp;&nbsp;Create Client
+        <fa-icon icon="plus"></fa-icon>&nbsp;&nbsp;Create Individual Client
+      </button>
+
+      <button mat-raised-button color="primary" [routerLink]="['create/entity']" *mifosxHasPermission="'CREATE_CLIENT'">
+        <fa-icon icon="plus"></fa-icon>&nbsp;&nbsp;Create Entity Client
       </button>
     </div>
+
   </div>
   <div>
     <table mat-table [dataSource]="dataSource" matSort>

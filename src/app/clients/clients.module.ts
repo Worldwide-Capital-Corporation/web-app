@@ -58,6 +58,11 @@ import { ClientFamilyMemberDialogComponent } from './client-stepper/client-famil
 import { CaptureImageDialogComponent } from './clients-view/custom-dialogs/capture-image-dialog/capture-image-dialog.component';
 import { CreateSelfServiceUserComponent } from './clients-view/client-actions/create-self-service-user/create-self-service-user.component';
 import { AddClientCollateralComponent } from './clients-view/client-actions/add-client-collateral/add-client-collateral.component';
+import { CreateEntityClientComponent } from './create-entity-client/create-entity-client.component';
+import { ClientReviewStepComponent } from './entity-client-stepper/client-review-step/client-review-step.component';
+import { ClientDetailsStepComponent } from './entity-client-stepper/client-details-step/client-details-step.component';
+import { ClientOfficeAddressStepComponent } from './entity-client-stepper/client-office-address-step/client-office-address-step.component';
+import { ClientBeneficiaryStepComponent } from './entity-client-stepper/client-beneficiary-step/client-beneficiary-step.component';
 
 
 /**
@@ -122,7 +127,12 @@ import { AddClientCollateralComponent } from './clients-view/client-actions/add-
     ClientFamilyMemberDialogComponent,
     CaptureImageDialogComponent,
     CreateSelfServiceUserComponent,
-    AddClientCollateralComponent
+    AddClientCollateralComponent,
+    CreateEntityClientComponent,
+    ClientReviewStepComponent,
+    ClientDetailsStepComponent,
+    ClientOfficeAddressStepComponent,
+    ClientBeneficiaryStepComponent
   ],
   providers: [ ]
 

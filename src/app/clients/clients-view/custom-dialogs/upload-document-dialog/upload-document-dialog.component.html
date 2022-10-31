@@ -15,12 +15,22 @@
             <input formControlName="description" matInput />
         </mat-form-field>
 
-        <mifosx-file-upload flex="60%" (change)="onFileSelect($event)"></mifosx-file-upload>
+      <mat-form-field fxFlex="48%" (click)="issuedAtDatePicker.open()">
+        <mat-label>Issued On</mat-label>
+        <input matInput [max]="maxDate" [matDatepicker]="issuedAtDatePicker" formControlName="issuedAt">
+        <mat-datepicker-toggle matSuffix [for]="issuedAtDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #issuedAtDatePicker></mat-datepicker>
+        <mat-error *ngIf="uploadDocumentForm.controls.issuedAt.hasError('max')">
+          Issued On date is in the future
+        </mat-error>
+      </mat-form-field>
 
-        <mat-dialog-actions align="end">
-            <button mat-raised-button mat-dialog-close>Cancel</button>
-            <button mat-raised-button color="primary" [disabled]="!uploadDocumentForm.valid" [mat-dialog-close]="uploadDocumentForm.value">Confirm</button>
-        </mat-dialog-actions>
+      <mifosx-file-upload flex="60%" (change)="onFileSelect($event)"></mifosx-file-upload>
+
+      <mat-dialog-actions align="end">
+          <button mat-raised-button mat-dialog-close>Cancel</button>
+          <button mat-raised-button color="primary" [disabled]="!uploadDocumentForm.valid" [mat-dialog-close]="uploadDocumentForm.value">Confirm</button>
+      </mat-dialog-actions>
 
     </form>
 </div>

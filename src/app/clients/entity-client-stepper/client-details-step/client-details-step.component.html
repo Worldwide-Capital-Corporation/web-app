@@ -1,0 +1,130 @@
+<form [formGroup]="createClientForm">
+
+  <div fxLayout="row wrap" fxLayoutGap="2%" fxLayout.lt-md="column">
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Office</mat-label>
+      <mat-select required formControlName="officeId">
+        <mat-option *ngFor="let office of officeOptions" [value]="office.id">
+          {{ office.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="createClientForm.controls.officeId.hasError('required')">
+        Office is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Entity Registered Name</mat-label>
+      <input matInput required formControlName="registeredName">
+      <mat-error *ngIf="createClientForm.controls.registeredName.hasError('required')">
+        Entity Registered Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Entity Type</mat-label>
+      <mat-select required formControlName="constitutionId">
+        <mat-option *ngFor="let entityType of constitutionOptions" [value]="entityType.id">
+          {{ entityType.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="createClientForm.controls.constitutionId.hasError('required')">
+        Entity Type is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Tax Identification No. (TIN)</mat-label>
+      <input matInput required formControlName="tin">
+      <mat-error *ngIf="createClientForm.controls.tin.hasError('required')">
+        Tax Identification No. (TIN) is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Trading License No.</mat-label>
+      <input matInput required formControlName="tradingLicenseNo">
+      <mat-error *ngIf="createClientForm.controls.tradingLicenseNo.hasError('required')">
+        Trading License No. is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%" (click)="incorpValidityTillDatePicker.open()">
+      <mat-label>Trading License Expiry Date</mat-label>
+      <input matInput required [min]="maxDate" [matDatepicker]="incorpValidityTillDatePicker" formControlName="incorpValidityTillDate">
+      <mat-datepicker-toggle matSuffix [for]="incorpValidityTillDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #incorpValidityTillDatePicker></mat-datepicker>
+      <mat-error *ngIf="createClientForm.controls.incorpValidityTillDate.hasError('required')">
+        Trading License Expiry Date is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="createClientForm.controls.incorpValidityTillDate.hasError('min')">
+        Expiry date is in the past
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%" (click)="incorporationDatePicker.open()">
+      <mat-label>Incorporation date</mat-label>
+      <input matInput required [max]="maxDate" [matDatepicker]="incorporationDatePicker" formControlName="incorporationDate">
+      <mat-datepicker-toggle matSuffix [for]="incorporationDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #incorporationDatePicker></mat-datepicker>
+      <mat-error *ngIf="createClientForm.controls.incorporationDate.hasError('required')">
+        Incorporation date is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="createClientForm.controls.incorporationDate.hasError('max')">
+        Incorporation date is in the future
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Company Reg. No.</mat-label>
+      <input matInput required formControlName="incorpNumber">
+      <mat-error *ngIf="createClientForm.controls.incorpNumber.hasError('required')">
+        Company Registration Number is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Contact Number</mat-label>
+      <input matInput type="tel" required formControlName="contactNumber">
+      <mat-error *ngIf="createClientForm.controls.contactNumber.hasError('required')">
+        Company contact is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Annual turnover in Eswatini Lilangeni</mat-label>
+      <input matInput type="number" required formControlName="turnover">
+      <mat-error *ngIf="createClientForm.controls.turnover.hasError('required')">
+        Annual turnover is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="createClientForm.controls.turnover.hasError('pattern')">
+        Enter valid amount
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="48%">
+      <mat-label>Email address</mat-label>
+      <input matInput type="email" formControlName="emailAddress">
+      <mat-error *ngIf="createClientForm.controls.emailAddress.hasError('required')">
+        Email address is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="createClientForm.controls.emailAddress.hasError('email')">
+        Enter valid email
+      </mat-error>
+    </mat-form-field>
+
+  </div>
+
+  <div fxLayout="row" class="margin-t" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="2%">
+    <button mat-raised-button matStepperPrevious disabled>
+      <fa-icon icon="arrow-left"></fa-icon>&nbsp;&nbsp;
+      Previous
+    </button>
+    <button mat-raised-button matStepperNext>
+      Next&nbsp;&nbsp;
+      <fa-icon icon="arrow-right"></fa-icon>
+    </button>
+  </div>
+
+</form>

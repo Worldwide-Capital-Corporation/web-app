@@ -171,6 +171,7 @@ export class ClientAddressStepComponent {
       label: 'Town / Village',
       value: address ? address.townVillage : '',
       type: 'text',
+      required: true,
       order: 6
     }) : null);
     formfields.push(this.isFieldEnabled('city') ? new InputBase({
@@ -178,6 +179,7 @@ export class ClientAddressStepComponent {
       label: 'City',
       value: address ? address.city : '',
       type: 'text',
+      required: true,
       order: 7
     }) : null);
     formfields.push(this.isFieldEnabled('stateProvinceId') ? new SelectBase({
@@ -185,6 +187,7 @@ export class ClientAddressStepComponent {
       label: 'State / Province',
       value: address ? address.stateProvinceId : '',
       options: { label: 'name', value: 'id', data: this.clientTemplate.address[0].stateProvinceIdOptions },
+      required: true,
       order: 8
     }) : null);
     formfields.push(this.isFieldEnabled('countyDistrict') ? new InputBase({
@@ -199,6 +202,7 @@ export class ClientAddressStepComponent {
       label: 'Country',
       value: address ? address.countryId : '',
       options: { label: 'name', value: 'id', data: this.clientTemplate.address[0].countryIdOptions },
+      required: true,
       order: 10
     }) : null);
     formfields.push(this.isFieldEnabled('postalCode') ? new InputBase({
@@ -215,7 +219,7 @@ export class ClientAddressStepComponent {
   /**
    * Returns the array of client addresses
    */
-  get address() {
+  get clientAddresses() {
     return { address: this.clientAddressData };
   }
 

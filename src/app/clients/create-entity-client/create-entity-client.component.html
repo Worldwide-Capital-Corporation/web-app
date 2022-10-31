@@ -1,0 +1,62 @@
+<div class="container">
+
+  <mat-horizontal-stepper linear class="mat-elevation-z8" labelPosition="bottom" #clientStepper>
+
+    <ng-template matStepperIcon="edit">
+      <fa-icon icon="pencil-alt" size="sm"></fa-icon>
+    </ng-template>
+
+    <ng-template matStepperIcon="done">
+      <fa-icon icon="check" size="sm"></fa-icon>
+    </ng-template>
+
+    <ng-template matStepperIcon="error">
+      <fa-icon icon="exclamation-triangle" size="lg"></fa-icon>
+    </ng-template>
+
+    <ng-template matStepperIcon="preview">
+      <fa-icon icon="eye" size="sm"></fa-icon>
+    </ng-template>
+
+    <mat-step [stepControl]="clientGeneralForm">
+
+      <ng-template matStepLabel>Entity Details</ng-template>
+
+      <mifosx-client-details-step [clientTemplate]="clientTemplate"></mifosx-client-details-step>
+
+    </mat-step>
+
+    <mat-step [stepControl]="officeAddressForm">
+
+      <ng-template matStepLabel>Registered Office Address</ng-template>
+
+      <mifosx-client-office-address-step [clientTemplate]="clientTemplate"></mifosx-client-office-address-step>
+
+    </mat-step>
+
+
+    <mat-step [completed]="client.beneficiaries.length">
+
+      <ng-template matStepLabel>Beneficiary Owner</ng-template>
+
+      <mifosx-client-beneficiary-step [clientTemplate]="clientTemplate"></mifosx-client-beneficiary-step>
+
+    </mat-step>
+
+    <mat-step *ngIf="clientGeneralForm.valid && officeAddressForm.valid" completed>
+
+      <ng-template matStepLabel>Preview</ng-template>
+
+      <mifosx-client-review-step
+        [clientTemplate]="clientTemplate"
+        [clientAddressFieldConfig]="clientAddressFieldConfig"
+        [loading]="loading"
+        [client]="client"
+        (submit)="submit()"
+      ></mifosx-client-review-step>
+
+    </mat-step>
+
+  </mat-horizontal-stepper>
+
+</div>

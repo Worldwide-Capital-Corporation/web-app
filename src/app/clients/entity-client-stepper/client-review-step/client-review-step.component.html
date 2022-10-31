@@ -1,0 +1,76 @@
+<div fxLayout="row wrap" fxLayout.lt-md="column">
+
+  <h3 class="mat-h3" fxFlexFill>General</h3>
+
+  <mat-divider fxFlexFill></mat-divider>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Name</span>
+    <span fxFlex="60%">{{ client.clientNonPersonDetails.registeredName }}</span>
+  </div>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Office</span>
+    <span fxFlex="60%">{{ client.officeId | find:clientTemplate.officeOptions:'id':'name' }}</span>
+  </div>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Entity Type</span>
+    <span fxFlex="60%">{{ client.clientNonPersonDetails.constitutionId | find:clientTemplate.clientNonPersonConstitutionOptions:'id':'name' }}</span>
+  </div>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Tax Identification No. (TIN)</span>
+    <span fxFlex="60%">{{ client.clientNonPersonDetails.tin }}</span>
+  </div>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Trading License No.</span>
+    <span fxFlex="60%">{{ client.clientNonPersonDetails.tradingLicenseNo }}</span>
+  </div>
+
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Trading License Expiry Date</span>
+    <span fxFlex="60%">{{ client.clientNonPersonDetails.incorpValidityTillDate  | dateFormat }}</span>
+  </div>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Incorporation date</span>
+    <span fxFlex="60%">{{ client.clientNonPersonDetails.incorporationDate  | dateFormat }}</span>
+  </div>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Company Reg. No.</span>
+    <span fxFlex="60%">{{ client.clientNonPersonDetails.incorpNumber }}</span>
+  </div>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Registered Office Address</span>
+    <span fxFlex="60%">{{client.address[0].addressLine2}} {{client.address[0].townVillage}} {{client.address[0].city}}
+      {{getSelectedValue('stateProvinceIdOptions', client.address[0].stateProvinceId)?.name}} {{getSelectedValue('countryIdOptions', client.address[0].countryId)?.name}} {{client.address[0].postalCode}}</span>
+  </div>
+
+  <div fxFlexFill>
+    <span fxFlex="40%">Beneficiary Owner(s)</span>
+    <span fxFlex="60%">
+          <span *ngFor="let beneficiary of client.beneficiaries;">
+            {{beneficiary.firstName}} {{beneficiary.middleName}} {{beneficiary.lastName}} <br>
+          </span>
+    </span>
+  </div>
+</div>
+
+<div fxLayout="row" class="margin-t" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="2%">
+  <button mat-raised-button matStepperPrevious [disabled]="loading">
+    <fa-icon icon="arrow-left"></fa-icon>&nbsp;&nbsp;
+    Previous
+  </button>
+  <button mat-raised-button [routerLink]="['/clients/create/entity']" [disabled]="loading">
+    Cancel
+  </button>
+  <button mat-raised-button color="primary" class="add-client-button" [disabled]="loading" (click)="submit.emit()">
+    Submit
+    <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>
+  </button>
+</div>

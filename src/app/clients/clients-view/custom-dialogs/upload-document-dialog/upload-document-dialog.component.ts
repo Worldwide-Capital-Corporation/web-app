@@ -15,6 +15,8 @@ export class UploadDocumentDialogComponent implements OnInit {
   uploadDocumentData: any = [];
   /** Triggers description field */
   documentIdentifier = false;
+  /** Maximum date allowed. */
+  maxDate = new Date();
 
   /**
    * @param {MatDialogRef} dialogRef Dialog reference element
@@ -38,6 +40,7 @@ export class UploadDocumentDialogComponent implements OnInit {
     this.uploadDocumentForm = this.formBuilder.group({
       'fileName': ['', Validators.required],
       'description': [''],
+      'issuedAt': [''],
       'file': ['']
     });
   }

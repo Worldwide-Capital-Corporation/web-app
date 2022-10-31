@@ -63,7 +63,7 @@ export class AuthenticatorAppComponent implements OnInit {
    */
   private createAppCodeVerificationForm() {
     this.appCodeVerificationForm = this.formBuilder.group({
-      'otp': ['', Validators.required]
+      'otp': ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]]
     });
   }
 }

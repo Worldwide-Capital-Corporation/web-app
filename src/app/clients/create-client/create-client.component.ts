@@ -1,5 +1,5 @@
 /** Angular Imports */
-import { Component, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 /** Custom Services */
@@ -35,7 +35,6 @@ export class CreateClientComponent {
   clientTemplate: any;
   /** Client Address Field Config */
   clientAddressFieldConfig: any;
-
   /** loader when posting client data to API */
   loading: boolean;
 
@@ -67,18 +66,11 @@ export class CreateClientComponent {
    * Retrieves the client object
    */
   get client() {
-    if (this.clientTemplate.isAddressEnabled) {
-      return {
-        ...this.clientGeneralStep.clientGeneralDetails,
-        ...this.clientFamilyMembersStep.familyMembers,
-        ...this.clientAddressStep.address
-      };
-    } else {
-      return {
-        ...this.clientGeneralStep.clientGeneralDetails,
-        ...this.clientFamilyMembersStep.familyMembers
-      };
-    }
+    return {
+      ...this.clientGeneralStep.clientGeneralDetails,
+      ...this.clientFamilyMembersStep.familyMembers,
+      ...this.clientAddressStep.clientAddresses
+    };
   }
   /**
    * Submits the create client form.

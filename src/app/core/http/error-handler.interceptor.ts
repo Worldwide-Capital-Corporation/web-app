@@ -71,6 +71,8 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
       this.alertService.alert({ type: 'Resource does not exist', message: errorMessage || 'Resource does not exist!' });
     }  else if (status === 500) {
       this.alertService.alert({ type: 'Internal Server Error', message: 'Internal Server Error. Please try again later.' });
+    } else if (status === 0) {
+      this.alertService.alert({ type: 'Connection Error', message: 'Server is unreachable. Please check your network connection or try again later.' });
     } else {
       this.alertService.alert({ type: 'Unknown Error', message: 'Unknown Error. Please try again later.' });
     }

@@ -51,6 +51,11 @@ export class ClientsService {
     return this.http.post(`/clients`, client);
   }
 
+  createEntityClient(client: any) {
+    this.alertService.alert({ type: 'Creating Client', message: 'Please wait...' });
+    return this.http.post(`/clients/entity`, client);
+  }
+
   updateClient(clientId: string, client: any) {
     return this.http.put(`/clients/${clientId}`, client);
   }
@@ -188,6 +193,10 @@ export class ClientsService {
     return this.http.get(`/clients/${clientId}/documents/${documentId}/attachment`, { params: httpParams, responseType: 'blob' });
   }
 
+  getClientBeneficiaryOwners(clientId: string) {
+    return this.http.get(`/clients/${clientId}/beneficiaries`);
+  }
+
   getClientFamilyMembers(clientId: string) {
     return this.http.get(`/clients/${clientId}/familymembers`);
   }
@@ -234,6 +243,10 @@ export class ClientsService {
 
   uploadClientIdentifierDocument(identifierId: string, documentData: any) {
     return this.http.post(`/client_identifiers/${identifierId}/documents`, documentData);
+  }
+
+  updateClientIdentifier(identifierId: string) {
+    return this.http.post(`/screening/kyc-document/${identifierId}`, {});
   }
 
   getClientDocuments(clientId: string) {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {ClientsService} from '../../clients.service';
+import {HasPermissionDirective} from '../../../directives/has-permission/has-permission.directive';
 
 /** Custom Services */
 
@@ -18,8 +19,9 @@ export class DocumentsTabComponent implements OnInit {
   individual: boolean;
   riskRatingColor: string;
   riskRatingText: string;
-  loading = false;
-  loadingMatch = false;
+  loading: boolean;
+  loadingMatch: boolean;
+  isKycScreeningEnabled: boolean;
 
   matchesColumns: string[] = ['matchedFields', 'category', 'categories', 'imageUrl', 'actions'];
   matches: any;
@@ -29,12 +31,13 @@ export class DocumentsTabComponent implements OnInit {
     private clientsService: ClientsService
   ) {
     this.showFallback = true;
-    this.riskRatingColor = 'accent';
+    this.riskRatingColor = 'warn';
     this.riskRatingText = 'No Data';
     this.route.data.subscribe((data: { screeningData: any }) => {
       if (data.screeningData) {
         this.kycData = data.screeningData.latest;
         this.matches = data.screeningData.matches;
+        this.isKycScreeningEnabled = data.screeningData.isKycScreeningEnabled;
         this.showFallback = false;
         this.processResponse();
       }

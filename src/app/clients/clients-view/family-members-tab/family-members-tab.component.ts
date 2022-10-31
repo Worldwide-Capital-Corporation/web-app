@@ -21,6 +21,8 @@ export class FamilyMembersTabComponent {
 
   /** Client Family Members */
   clientFamilyMembers: any;
+  /** Client beneficiary owners Members */
+  clientBeneficiaryOwner: any;
 
   /**
    * @param {ActivatedRoute} route Activated Route
@@ -30,8 +32,9 @@ export class FamilyMembersTabComponent {
   constructor(private route: ActivatedRoute,
               private clientsService: ClientsService,
               public dialog: MatDialog) {
-    this.route.data.subscribe((data: { clientFamilyMembers: any }) => {
+    this.route.data.subscribe((data: { clientFamilyMembers: any, clientBeneficiaryOwners: any }) => {
       this.clientFamilyMembers = data.clientFamilyMembers;
+      this.clientBeneficiaryOwner = data.clientBeneficiaryOwners;
     });
   }
 

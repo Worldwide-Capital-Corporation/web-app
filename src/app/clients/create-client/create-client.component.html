@@ -1,6 +1,6 @@
 <div class="container">
 
-  <mat-horizontal-stepper class="mat-elevation-z8" labelPosition="bottom" #clientStepper>
+  <mat-horizontal-stepper linear class="mat-elevation-z8" labelPosition="bottom" #clientStepper>
 
     <ng-template matStepperIcon="number">
       <fa-icon icon="pencil-alt" size="sm"></fa-icon>
@@ -38,7 +38,7 @@
 
     </mat-step>
 
-    <mat-step *ngIf="clientTemplate.isAddressEnabled">
+    <mat-step [completed]="client.address.length > 0">
 
       <ng-template matStepLabel>ADDRESS</ng-template>
 
@@ -58,7 +58,8 @@
         [clientTemplate]="clientTemplate"
         [clientAddressFieldConfig]="clientAddressFieldConfig"
         [loading]="loading"
-        [client]="client" (submit)="submit()"
+        [client]="client"
+        (submit)="submit()"
       >
       </mifosx-client-preview-step>
 
