@@ -15,7 +15,7 @@ services:
     ports:
       - '80:80'
     volumes:
-      - /home/tech/certs/thefarmersbank.co.za:/etc/nginx/certs
+      - /home/tech/certs/thefarmersbank.co.za:/etc/nginx/ssl
     environment:
       - FINERACT_API_URLS=https://localhost:8443,https://thefarmersbank.co.za:8443/
       - FINERACT_API_URL=https://thefarmersbank.co.za:8443/
