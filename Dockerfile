@@ -40,7 +40,6 @@ FROM $NGINX_IMAGE
 
 COPY --from=builder /dist /usr/share/nginx/html
 COPY /nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
-COPY /certs /etc/nginx/certs
 
 EXPOSE 80
 EXPOSE 443
