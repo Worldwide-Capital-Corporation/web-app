@@ -14,6 +14,7 @@ services:
         - PUPPETEER_CHROMIUM_REVISION_ARG=1011831
     ports:
       - '80:80'
+      - '443:443'
     volumes:
       - /home/tech/certs/thefarmersbank.co.za:/etc/nginx/ssl
     environment:
