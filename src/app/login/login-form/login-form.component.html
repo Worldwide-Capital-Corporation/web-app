@@ -1,4 +1,4 @@
-<form fxLayout="column" [formGroup]="loginForm" (ngSubmit)="login()" id="login-form">
+<form fxLayout="column" [formGroup]="loginForm" #formGroupDirective="ngForm" (ngSubmit)="login(formGroupDirective)" id="login-form">
 
   <mat-form-field fxFlexAlign="center" class="login-input">
     <span matPrefix>

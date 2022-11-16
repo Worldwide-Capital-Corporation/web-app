@@ -27,6 +27,7 @@
 <!--      <mifosx-server-selector class="p-l-10 p-t-10" *ngIf="environment.allowServerSwitch"></mifosx-server-selector>-->
     </div>
 
+    <ng-container>
     <!-- Logo with Organization Name -->
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex="1 0 auto">
       <img src="assets/images/farmers-bank-flat.jpeg" alt="Farmers Bank" class="img-container">
@@ -45,7 +46,7 @@
       <mifosx-authenticator-app *ngIf="authenticatorRequired"></mifosx-authenticator-app>
       <mifosx-two-factor-authentication *ngIf="twoFactorAuthenticationRequired"></mifosx-two-factor-authentication>
     </div>
-
+    </ng-container>
     <!-- Footer -->
     <mifosx-footer></mifosx-footer>
 

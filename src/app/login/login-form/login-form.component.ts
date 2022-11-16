@@ -1,6 +1,6 @@
 /** Angular Imports */
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, FormGroupDirective} from '@angular/forms';
 
 /** rxjs Imports */
 import { finalize } from 'rxjs/operators';
@@ -46,26 +46,25 @@ export class LoginFormComponent implements OnInit {
   /**
    * Authenticates the user if the credentials are valid.
    */
-  login() {
+  login(formGroupDirective: FormGroupDirective) {
     this.loading = true;
     this.loginForm.disable();
     this.authenticationService.login(this.loginForm.value)
       .pipe(finalize(() => {
-        this.loginForm.reset();
-        Object.keys(this.loginForm.controls).forEach(key => {
-          this.loginForm.get(key).setErrors(null);
-        });
-        // Angular Material Bug: Validation errors won't get removed on reset.
         this.loginForm.enable();
+        this.resetForm(this.loginForm, formGroupDirective);
         this.loading = false;
       })).subscribe(
-        (response: any) => {
-          console.log('Response: ', response);
-        },
-        (error: any) => {
-          console.log('Error: ', error);
-        }
+        (response: any) => {},
+        (error: any) => {}
     );
+  }
+
+  resetForm(form: FormGroup, formGroupDirective: FormGroupDirective) {
+    form.reset();
+    form.markAsPristine();
+    form.markAsUntouched();
+    formGroupDirective.resetForm();
   }
 
   /**
